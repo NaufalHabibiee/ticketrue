@@ -904,70 +904,55 @@ label .csel{margin-top:8px}
 @media(max-width:700px){.hero-home{padding:112px 0 60px}.hh-lead{font-size:16px}.hh-search{flex-direction:column;padding:10px;border-radius:24px}.hh-field{padding:10px 14px;border-right:0;border-bottom:1px solid #ffffff24}.hh-go{justify-content:center;padding:15px;margin-top:8px;border-radius:18px}.tk-scene{height:500px}.tk-date b{font-size:98px}.tk-name{top:172px}.tk-name h3{font-size:27px}.tk-hint{top:-22px}}
 @media(prefers-reduced-motion:reduce){.tk-scene{animation:none}.tk-card{transition:opacity .3s}.tk-tilt{transform:none}.hh-go,.tk-cta{transition:none}}
 
-/* Resell page, dark glass version: rows for listings, a cream call-to-action card, dark sell cards. */
-.rs-page{background:linear-gradient(180deg,#0c2d50 0%,#0a2440 100%);color:#e8f2ff}
-.rs-page .rs-rules>div{border-right-color:#ffffff2b}
-.rs-page .rs-rules strong{color:#fff}
-.rs-page .rs-rules p{color:#b9d0ea}
-.rs-page .rs-head h2{color:#fff}
-.rs-page .rs-head .text-button{color:#ffd08a}
-.rs-sub{margin-left:auto;font-size:14px;color:#9dbbdc}
-.rs-list{display:grid;gap:18px}
-.rs-row{display:grid;grid-template-columns:138px minmax(0,1.5fr) minmax(0,1.05fr) minmax(0,.95fr) auto;gap:28px;align-items:center;padding:20px 28px 20px 20px;border:1px solid #ffffff30;border-radius:34px;background:linear-gradient(160deg,#ffffff1f,#ffffff08);box-shadow:inset 0 1px 0 #ffffff40,0 20px 44px #0004;-webkit-backdrop-filter:blur(10px);backdrop-filter:blur(10px);transition:transform .25s,border-color .25s}
-.rs-row:hover{transform:translateY(-3px);border-color:#F9A12B99}
-.rs-date{position:relative;overflow:hidden;width:138px;height:138px;padding:16px 0 0 18px;border-radius:22px}
-.rs-date::after{content:"";position:absolute;top:-32px;right:-32px;width:96px;height:96px;border-radius:50%;background:currentColor;opacity:.16}
-.rs-date b{position:relative;z-index:1;display:block;font-size:66px;font-weight:800;line-height:.9;letter-spacing:-.06em}
-.rs-date span{position:relative;z-index:1;display:block;margin-top:10px;font-size:20px;font-weight:600}
-.tile-amber .rs-date{background:#ffdca8;color:#0c2d50}
-.tile-blue .rs-date{background:#cfe2fa;color:#0c2d50}
-.tile-navy .rs-date{background:#071c33;color:#fff}
-.tile-cream .rs-date{background:#fff2df;color:#0c2d50}
-.rs-main h3{margin:0 0 6px;font-size:26px;font-weight:800;line-height:1.15;letter-spacing:-.03em;color:#fff}
-.rs-main p{margin:2px 0 0;font-size:16px;line-height:1.5;color:#c4d8ee}
-.rs-seat strong{display:block;font-size:20px;line-height:1.3;color:#fff}
-.rs-seat span{display:block;margin-top:4px;font-size:16px;color:#b9d0ea}
-.rs-badge{display:inline-block;margin-top:12px;padding:8px 15px;border-radius:999px;background:#fff2df;color:#0c2d50;font-size:14px;font-style:normal;font-weight:600}
-.rs-badge.plain{background:#ffffff26;color:#fff}
-.rs-priceblock s{display:block;font-size:16px;color:#9dbbdc}
-.rs-priceblock strong{display:block;font-size:34px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:#fff}
+/* Resell page, light version: white background, listing rows with thin borders and small corners, cream call-to-action card. */
+.rs-page{background:#fff;color:#0c2d50}
+.rs-page .rs-rules>div{border-right:1px dashed #c4d6e8}
+.rs-page .rs-rules>div:last-child{border-right:0}
+.rs-page .rs-rules strong{color:#0c2d50}
+.rs-page .rs-rules p{color:#56708e}
+.rs-page .rs-head h2{color:#0c2d50}
+.rs-page .rs-head .text-button{color:#b06a05}
+.rs-sub{margin-left:auto;font-size:14px;color:#56708e}
+.rs-list{display:grid;gap:12px}
+.rs-row{display:grid;grid-template-columns:118px minmax(0,1.5fr) minmax(0,1.05fr) minmax(0,.95fr) auto;gap:26px;align-items:center;padding:14px 22px 14px 14px;border:1px solid #dfe8f2;border-radius:10px;background:#fff;box-shadow:0 2px 8px #0c2d500d;transition:transform .2s,border-color .2s,box-shadow .2s}
+.rs-row:hover{transform:translateY(-2px);border-color:#F9A12B;box-shadow:0 8px 20px #0c2d5014}
+.rs-date{position:relative;overflow:hidden;width:118px;height:118px;padding:13px 0 0 15px;border-radius:8px}
+.rs-date::after{content:"";position:absolute;top:-28px;right:-28px;width:80px;height:80px;border-radius:50%;background:currentColor;opacity:.13}
+.rs-date b{position:relative;z-index:1;display:block;font-size:56px;font-weight:800;line-height:.9;letter-spacing:-.06em}
+.rs-date span{position:relative;z-index:1;display:block;margin-top:9px;font-size:18px;font-weight:600}
+.tile-amber .rs-date{background:#ffe3b8;color:#0c2d50}
+.tile-blue .rs-date{background:#d6e6fb;color:#0c2d50}
+.tile-navy .rs-date{background:#0c2d50;color:#fff}
+.tile-cream .rs-date{background:#fff1dd;color:#0c2d50}
+.rs-main h3{margin:0 0 5px;font-size:23px;font-weight:800;line-height:1.15;letter-spacing:-.03em;color:#0c2d50}
+.rs-main p{margin:2px 0 0;font-size:15px;line-height:1.5;color:#56708e}
+.rs-seat strong{display:block;font-size:18px;line-height:1.3;color:#0c2d50}
+.rs-seat span{display:block;margin-top:3px;font-size:15px;color:#56708e}
+.rs-badge{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:6px;background:#fff1dd;color:#0c2d50;font-size:13px;font-style:normal;font-weight:600}
+.rs-badge.plain{background:#eef3f9;color:#0c2d50}
+.rs-priceblock s{display:block;font-size:15px;color:#8a9db3}
+.rs-priceblock strong{display:block;font-size:29px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:#0c2d50}
 .rs-act{display:flex;flex-direction:column;align-items:center;gap:8px}
-.rs-act .rs-btn{padding:19px 38px;border:0;border-radius:999px;background:#F9A12B;color:#0c2d50;font-size:17px;font-weight:700;box-shadow:0 12px 26px #f9a12b55,inset 0 1px 0 #ffffff66;transition:transform .2s,background .2s}
-.rs-act .rs-btn:hover{background:#ffb347;transform:translateY(-2px)}
-.rs-act .rs-cancel{color:#ffd08a;font-size:13px;text-decoration:underline}
-.rs-act .resale-yours{color:#ffd08a}
-.rs-cta-wrap{padding-top:44px}
-.rs-cta-card{display:flex;align-items:center;justify-content:space-between;gap:36px;padding:36px 42px;border:1px solid #ffffff99;border-radius:40px;background:#fff0dc;color:#0c2d50;box-shadow:0 26px 60px #0005,inset 0 1px 0 #fff}
-.rs-cta-card h2{margin:0;font-size:clamp(28px,3.4vw,42px);font-weight:800;line-height:1.1;letter-spacing:-.04em;color:#0c2d50}
-.rs-cta-card p{max-width:52ch;margin:12px 0 0;font-size:17px;line-height:1.55;color:#5b6f88}
-.rs-cta-btns{display:flex;flex:0 0 auto;flex-wrap:wrap;gap:14px}
-.rs-cta-btns .btn{padding:18px 30px;border-radius:999px;font-size:17px;font-weight:700}
-.rs-cta-btns .rs-ghost{border:1px solid #0c2d5030;background:#0c2d5026;color:#0c2d50}
-.rs-cta-btns .rs-ghost:hover{background:#0c2d5040}
-.rs-page .rs-mine{border:1px solid #ffffff2e;background:linear-gradient(160deg,#ffffff1c,#ffffff08);box-shadow:inset 0 1px 0 #ffffff33}
-.rs-page .rs-mine .rs-art{background:#0a2340}
-.rs-page .rs-mine-info .rs-tag{color:#ffd08a}
-.rs-page .rs-mine-info h3{color:#fff}
-.rs-page .rs-mine-info p{color:#b9d0ea}
-.rs-page .rs-mine-act{border-left-color:#ffffff2b;color:#e8f2ff}
-.rs-page .rs-mine-act>strong{color:#fff}
-.rs-page .rs-mine-act>small{color:#b9d0ea}
-.rs-page .rs-form label{color:#9dbbdc}
-.rs-page .rs-price{border-color:#ffffff33;background:#08203a}
-.rs-page .rs-price span{background:#0c2d50;color:#9dbbdc}
-.rs-page .rs-price input{background:transparent;color:#fff}
-.rs-page .chip{border-color:#ffffff33;background:#ffffff14;color:#fff}
-.rs-page .chip:hover{border-color:#F9A12B;background:#F9A12B26}
-.rs-page .rs-receive{color:#7be0a8}
-.rs-page .rs-receive.over{color:#ff9d94}
-.rs-page .resale-box{border-color:#ffffff40;color:#e8f2ff}
-.rs-page .resale-box input{border-color:#ffffff33;background:#08203a;color:#fff}
-.rs-page .rs-empty{border-color:#ffffff40;background:#ffffff0f}
-.rs-page .rs-empty strong{color:#fff}
-.rs-page .rs-empty p{color:#b9d0ea}
-.rs-page .notice{background:#ffffff14;color:#e8f2ff}
-.rs-page .notice.error{color:#ffb3ab}
+.rs-act .rs-btn{padding:15px 30px;border:0;border-radius:8px;background:#F9A12B;color:#0c2d50;font-size:16px;font-weight:700;box-shadow:0 4px 12px #f9a12b44;transition:transform .2s,background .2s}
+.rs-act .rs-btn:hover{background:#ffb347;transform:translateY(-1px)}
+.rs-act .rs-cancel{color:#b06a05;font-size:13px;text-decoration:underline}
+.rs-act .resale-yours{color:#b06a05}
+.rs-cta-wrap{padding-top:36px}
+.rs-cta-card{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:28px 32px;border:1px solid #f1d9b3;border-radius:12px;background:#fff6e8;color:#0c2d50}
+.rs-cta-card h2{margin:0;font-size:clamp(24px,3vw,34px);font-weight:800;line-height:1.1;letter-spacing:-.04em;color:#0c2d50}
+.rs-cta-card p{max-width:52ch;margin:10px 0 0;font-size:16px;line-height:1.55;color:#5b6f88}
+.rs-cta-btns{display:flex;flex:0 0 auto;flex-wrap:wrap;gap:10px}
+.rs-cta-btns .btn{padding:14px 24px;border-radius:8px;font-size:16px;font-weight:700}
+.rs-cta-btns .rs-ghost{border:1px solid #d9c8a8;background:#fff;color:#0c2d50}
+.rs-cta-btns .rs-ghost:hover{border-color:#F9A12B}
+.rs-page .rs-mine{border:1px solid #dfe8f2;border-radius:10px;background:#fff}
+.rs-page .rs-mine-act{border-left:1px solid #e4edf6}
+.rs-page .rs-price{border-radius:8px}
+.rs-page .chip{border-radius:8px}
+.rs-page .resale-box{border-radius:8px}
+.rs-page .resale-box input,.rs-page .rs-price input{border-radius:6px}
+.rs-page .rs-empty{border:1px dashed #c4d6e8;border-radius:10px}
 .rs-page .rs-block{padding-bottom:20px}
-@media(max-width:1180px){.rs-row{grid-template-columns:138px minmax(0,1fr) minmax(0,1fr);gap:22px 26px}.rs-priceblock{grid-column:2}.rs-act{grid-column:3;align-items:flex-end}}
-@media(max-width:800px){.rs-row{grid-template-columns:110px minmax(0,1fr);padding:18px;border-radius:26px}.rs-date{width:110px;height:110px;padding:12px 0 0 14px}.rs-date b{font-size:52px}.rs-main h3{font-size:21px}.rs-priceblock,.rs-seat{grid-column:1/-1}.rs-act{grid-column:1/-1;align-items:stretch}.rs-act .rs-btn{width:100%}.rs-cta-card{flex-direction:column;align-items:flex-start;padding:28px 24px;border-radius:30px}.rs-cta-btns{width:100%}.rs-cta-btns .btn{flex:1 1 auto}.rs-sub{margin-left:0;width:100%}}
+@media(max-width:1180px){.rs-row{grid-template-columns:118px minmax(0,1fr) minmax(0,1fr);gap:16px 22px}.rs-priceblock{grid-column:2}.rs-act{grid-column:3;align-items:flex-end}}
+@media(max-width:800px){.rs-row{grid-template-columns:96px minmax(0,1fr);padding:12px}.rs-date{width:96px;height:96px;padding:10px 0 0 12px}.rs-date b{font-size:44px}.rs-main h3{font-size:19px}.rs-priceblock,.rs-seat{grid-column:1/-1}.rs-act{grid-column:1/-1;align-items:stretch}.rs-act .rs-btn{width:100%}.rs-cta-card{flex-direction:column;align-items:flex-start;padding:22px 20px}.rs-cta-btns{width:100%}.rs-cta-btns .btn{flex:1 1 auto}.rs-sub{margin-left:0;width:100%}}
 @media(prefers-reduced-motion:reduce){.rs-row,.rs-act .rs-btn{transition:none}.rs-row:hover{transform:none}}
