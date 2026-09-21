@@ -1,7 +1,7 @@
 // Small, restrained text motion: headline words rise in, sections reveal on scroll, numbers count up.
 // Everything is skipped when the visitor prefers reduced motion, and the text always stays real text in the DOM.
 const reduced=()=>matchMedia('(prefers-reduced-motion: reduce)').matches;
-const REVEAL='.section-title,.card,.steps>div,.editorial-image,.editorial>div,.chain-band,.live-chain,.rs-rules>div,.rs-ticket,.rs-mine,.rs-empty,.ticket-item,.about-facts .container>div,.about-heading,.about-choice-preview,.about-proof,.about-trust-copy>.notice,.about-encore>div,.about-reveal-link,.how-card,.guide-block,.waitlist,.save-col,.dash-kpi';
+const REVEAL='.section-title,.card,.steps>div,.editorial-image,.editorial>div,.chain-band,.live-chain,.rs-rules>div,.rs-row,.rs-cta-card,.rs-mine,.rs-empty,.ticket-item,.about-facts .container>div,.about-heading,.about-choice-preview,.about-proof,.about-trust-copy>.notice,.about-encore>div,.about-reveal-link,.how-card,.guide-block,.waitlist,.save-col,.dash-kpi';
 // Headings that animate when scrolled into view (h1 animates right away), and sections that get an `.in` class for CSS-driven entrances.
 const LATER='.about-page h2,.about-ticket h3,.how h2',IN_SEL='.how,.about-intro,.about-facts,.about-choose,.about-trust,.about-encore';
 let revealIO,countIO,splitIO,inIO,mutations,lastPath=null;

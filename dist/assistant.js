@@ -98,8 +98,8 @@ const aliases=e=>[...new Set([e.title,e.artist,e.slug.replace(/-/g,' '),...(e.ti
 
 export function mountAssistant(getCtx){
   if(document.querySelector('.as-fab'))return;
-  const ICON='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 4.5h14a2 2 0 0 1 2 2v8.5a2 2 0 0 1-2 2H10l-4.2 3.3a.6.6 0 0 1-1-.47V17H5a2 2 0 0 1-2-2V6.5a2 2 0 0 1 2-2Z"/><circle class="dot" cx="8.5" cy="10.8" r="1.1"/><circle class="dot" cx="12" cy="10.8" r="1.1"/><circle class="dot" cx="15.5" cy="10.8" r="1.1"/></svg>';
-  const TILE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="M5 5.5h11a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2h-6l-3.6 2.9a.5.5 0 0 1-.8-.4V16.5H5a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2Z"/><circle class="dot" cx="7.6" cy="11" r="1"/><circle class="dot" cx="11" cy="11" r="1"/><circle class="dot" cx="14.4" cy="11" r="1"/><path class="spark" d="M19.4 2.6l.7 1.7 1.7.7-1.7.7-.7 1.7-.7-1.7-1.7-.7 1.7-.7z"/></svg>';
+  const BUBBLE='<svg class="ai" viewBox="0 0 32 30" aria-hidden="true"><path class="bubble" d="M9 6h10a6 6 0 0 1 6 6v4a6 6 0 0 1-6 6h-5.5l-4.3 3.6a.7.7 0 0 1-1.2-.53V22A6 6 0 0 1 3 16v-4a6 6 0 0 1 6-6Z"/><circle class="d d1" cx="9.5" cy="14" r="1.6"/><circle class="d d2" cx="14" cy="14" r="1.6"/><circle class="d d3" cx="18.5" cy="14" r="1.6"/><path class="spark" d="M26.5 1.6l1.1 2.9 2.9 1.1-2.9 1.1-1.1 2.9-1.1-2.9-2.9-1.1 2.9-1.1z"/></svg>';
+  const ICON=BUBBLE,TILE=BUBBLE;
   const CLOSE='<svg viewBox="0 0 24 24" aria-hidden="true"><path d="m6 6 12 12M18 6 6 18"/></svg>';
   const fab=document.createElement('button');fab.type='button';fab.className='as-fab';fab.setAttribute('aria-label','Open Rue, the Ticketrue assistant');fab.setAttribute('aria-expanded','false');fab.setAttribute('aria-controls','as-panel');fab.innerHTML=ICON+'<span class="as-fab-tip">Ask Rue</span>';
   const panel=document.createElement('section');panel.id='as-panel';panel.className='as-panel';panel.setAttribute('role','dialog');panel.setAttribute('aria-label','Rue, the Ticketrue assistant');panel.hidden=true;
