@@ -1,86 +1,127 @@
-# TicketRue
+# Ticketrue
 
-On-chain concert ticketing dApp built for **Build Week Hackathon Vol.2** (Girl Meets Tech / BOT Chain track).
+Concert tickets that are truly yours. Ticketrue is a ticketing dApp on **BOT Chain** where a ticket is recorded on-chain under your wallet, so anyone can check who owns it, and resale can never go above what the seller paid.
 
-One wallet, one ticket per event — enforced directly by the smart contract, not by a backend server. Organizers create events on-chain; attendees connect their wallet and claim a ticket, which is recorded permanently on BOT Chain.
+Built for **Build Week Hackathon Vol.2** (Girl Meets Tech x BOT Chain), **RWA track: Event / Ticket App**.
 
-## Live Demo
+> All concerts, artists and venues in this project are **fictional**. Demo payments (QRIS, bank, e-wallet) are simulations and move no real money.
 
-- **Website:** _TBD — add live custom domain URL here_
-- **Video/Screenshots:** _optional, add if available_
+- **Live website:** _TBD: add the custom domain URL here_
+- **Repository:** https://github.com/NaufalHabibiee/ticketrue
 
-## Tech Stack
+## What it does, in plain English
 
-- **Smart contract:** Solidity `^0.8.20`
-- **Chain:** BOT Chain (EVM-compatible)
-- **Frontend:** HTML / CSS / vanilla JavaScript, [ethers.js](https://docs.ethers.org/v5/) v5
-- **Wallet:** MetaMask (browser extension)
+Buying a concert ticket online has three familiar problems: fake or duplicated tickets, scalpers who resell at huge markups, and no easy way to prove a ticket is real. Ticketrue fixes them with a smart contract:
 
-## How It Works
+1. **You buy a ticket with your wallet.** The contract issues it to your address. One wallet can hold one ticket per concert.
+2. **Anyone can verify it.** Every ticket has a QR code that opens a public check page reading the contract. A "live pass" is signed by your wallet and expires in 5 minutes, so a screenshot is useless.
+3. **Resale is fair.** You can resell a ticket only at or below what you paid. The buyer pays and receives the ticket in one transaction, and 5% goes to the organizer.
+4. **Gate staff check tickets in.** A ticket can be admitted only once.
 
-1. Organizer calls `createEvent(name, description, totalTickets)` to open a new event.
-2. Attendee connects their wallet on the site.
-3. Attendee calls `claimTicket(eventId)` — the contract checks the wallet hasn't already claimed and that tickets remain, then records the claim with a timestamp.
-4. Anyone can verify a wallet's ticket via `hasTicket(eventId, wallet)`.
+### Main features
+- Browse six concerts, filter by type, venue and date, save favorites, join a waitlist for sold-out shows
+- Seat map (seated shows) or ticket tiers, live availability read from the contract
+- Wallet connect with MetaMask and one-click switch to BOT Chain (no login needed)
+- My Tickets with QR pass, add to calendar, share, and download as an image
+- Resell marketplace with a price cap
+- Gate check-in page and a public ticket check page (`#/verify/<id>`)
+- Organizer dashboard: sales, resale volume, check-ins, publish concerts on-chain, gate staff, withdraw
+- A demo mode that works without a contract or wallet, so anyone can try the flow
+- A built-in chat assistant that answers questions about the site (runs in the browser, no server)
 
-## Smart Contract
+## Try it in 2 minutes
 
-Source: [`contracts/TicketRue.sol`](./contracts/TicketRue.sol)
+**Demo mode (no wallet):** open the site, pick a concert, choose a seat or tier, go to checkout, use the **Demo** tab and press *Simulate payment success*, then issue the local demo ticket. Open **My Tickets** to see the QR pass, or **Resell** to list it.
 
-Key functions:
+**On-chain mode (BOT Chain Testnet):**
+1. Install [MetaMask](https://metamask.io). Press **Connect wallet** on the site. It adds and switches to BOT Chain Testnet for you (Chain ID `968`, RPC `https://rpc.bohr.life`).
+2. Get free test BOT at https://faucet.botchain.ai/basic.
+3. Pick a concert, go to checkout on the **BOT Chain** tab, press **Buy on BOT Chain**, and confirm in MetaMask.
+4. Open **My Tickets**, then **Verify on BOT Chain** or **Show live pass**.
 
-| Function | Access | Description |
+## Smart contracts
+
+| Version | File | Status |
 |---|---|---|
-| `createEvent(string name, string description, uint256 totalTickets)` | organizer only | Opens a new event |
-| `closeEvent(uint256 eventId)` | organizer only | Closes an event to further claims |
-| `claimTicket(uint256 eventId)` | anyone | Claims one ticket (one per wallet per event) |
-| `hasTicket(uint256 eventId, address wallet)` | view | Checks whether a wallet holds a ticket |
-| `getEvent(uint256 eventId)` | view | Returns full event details |
-| `getAvailableTickets(uint256 eventId)` | view | Returns tickets remaining |
+| **v2** (used by the website) | [`contracts/Ticketrue.sol`](./contracts/Ticketrue.sol) | Compiled and tested locally. Deployment pending, see below. |
+| **v1** (first prototype) | [`contracts/v1/TicketRue.sol`](./contracts/v1/TicketRue.sol) | Deployed and tested on BOT Chain Testnet. |
+
+Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been audited.
+
+### v2 main functions
+
+| Function | Who | What it does |
+|---|---|---|
+| `createEvent(id, seated, demoClaims, startsAt, prices[], capacities[])` | organizer | Opens a concert for sale |
+| `buyTicket(eventId, tier, seat)` | anyone | Buys a ticket at the on-chain price (one per wallet per concert) |
+| `claimDemoTicket(eventId, tier, seat)` | anyone | Free claim, only for events created with `demoClaims=true` (testing) |
+| `listForResale(ticketId, price)` | ticket holder | Lists a ticket. The price cannot exceed what the holder paid |
+| `cancelResale(ticketId)` / `buyResale(ticketId)` | holder / anyone | Cancels a listing, or buys a listed ticket (5% fee to the organizer) |
+| `setStaff(address, allowed)` | organizer | Adds or removes gate staff |
+| `checkIn(ticketId)` | staff / organizer | Marks a ticket as used (once only) |
+| `verifyTicket`, `admits`, `getWalletTickets`, `getOption` | anyone (view) | Ownership, admission and availability checks |
+| `withdraw(recipient)` | organizer | Withdraws collected funds |
 
 ## Deployment
 
-### Testnet — BOT Chain Testnet (Chain ID `968`)
+### BOT Chain Testnet (Chain ID `968`)
 
-| | |
-|---|---|
-| Contract Address | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` |
-| Explorer | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
-| RPC | https://rpc.bohr.life |
+| Contract | Address | Explorer |
+|---|---|---|
+| v1 `TicketRue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
+| v2 `Ticketrue` | _TBD_ | _TBD_ |
 
-### Mainnet — BOT Chain Mainnet (Chain ID `677`)
+RPC: https://rpc.bohr.life
 
-| | |
-|---|---|
-| Contract Address | _TBD — pending mainnet BOT allocation from organizer_ |
-| Explorer | https://scan.botchain.ai/address/TBD |
-| RPC | https://rpc.botchain.ai |
+### BOT Chain Mainnet (Chain ID `677`)
 
-## Running Locally
+| Contract | Address | Explorer |
+|---|---|---|
+| v2 `Ticketrue` | _TBD: pending mainnet BOT allocation_ | https://scan.botchain.ai |
 
-No build step required — it's a static page.
+RPC: https://rpc.botchain.ai
+
+The website reads the active network and contract address from [`dist/config.js`](./dist/config.js). While no address is set, it runs in demo mode.
+
+## Run it locally
+
+Requires Node.js 20+ and Python 3.
 
 ```bash
-git clone https://github.com/<your-username>/ticketrue.git
-cd ticketrue
-# open index.html directly in a browser, or serve it:
-npx serve .
+npm install
+npm start
 ```
 
-MetaMask will prompt to add/switch to **BOT Chain Testnet** automatically if it isn't already configured.
+Then open http://localhost:8080. Do not open `index.html` directly: the site uses ES modules and needs HTTP.
+
+- `npm run build` copies Three.js, the QR library and the UI font into `dist/` (they are generated, not committed).
+- `npm run compile:contract` compiles `contracts/Ticketrue.sol` and refreshes `contracts/abi.json`, `contracts/bytecode.txt` and `dist/abi.js`.
+
+## Hosting
+
+The site is static (`dist/`) and uses URL hashes for routing, so it needs no server rewrites. A GitHub Actions workflow ([`.github/workflows/pages.yml`](./.github/workflows/pages.yml)) builds it and publishes it to GitHub Pages on every push to `main`.
+
+## Security notes
+
+- Ticketrue never asks for your seed phrase. Only connect MetaMask and approve transactions you have read.
+- Demo sign-in accepts sample details and stores no password. Data stays in your browser.
+- Local organizer pages are a prototype and not an authorization boundary. Real administration is restricted on-chain to the organizer wallet.
+- The contracts are unaudited hackathon code. Do not use them with real value.
+
+## Project layout
+
+```
+contracts/      Solidity source (v2), ABI, bytecode, and the v1 prototype
+dist/           The website (HTML, CSS, JS, images, 3D model)
+docs/           Product requirements and design notes
+scripts/        Build helpers (asset copy, contract compile)
+.github/        GitHub Pages deployment workflow
+```
 
 ## Team
 
-Build Week Hackathon Vol.2 — Team _TicketRue_
-
-- Naufal (Prof X) — [GitHub handle]
-- _Teammate 2 — GitHub handle_
-- _Teammate 3 — GitHub handle_
-
-## Acknowledgements
-
-Built on [BOT Chain](https://botchain.ai) · [scan.botchain.ai](https://scan.botchain.ai)
+_TBD: add team members (up to 3)._
 
 ## License
 
-MIT
+[MIT](./LICENSE)

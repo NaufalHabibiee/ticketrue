@@ -1,0 +1,4 @@
+const fs=require('fs');const solc=require('solc');
+const input={language:'Solidity',sources:{'Ticketrue.sol':{content:fs.readFileSync('contracts/Ticketrue.sol','utf8')}},settings:{optimizer:{enabled:true,runs:200},outputSelection:{'*':{'*':['abi','evm.bytecode.object','evm.methodIdentifiers']}}}};
+const out=JSON.parse(solc.compile(JSON.stringify(input)));if(out.errors){out.errors.forEach(e=>console.log(e.formattedMessage));if(out.errors.some(e=>e.severity==='error'))process.exit(1)}
+const c=out.contracts['Ticketrue.sol'].Ticketrue;fs.writeFileSync('contracts/abi.json',JSON.stringify(c.abi,null,2));fs.writeFileSync('contracts/bytecode.txt',c.evm.bytecode.object);fs.writeFileSync('dist/abi.js','export const selectors='+JSON.stringify(c.evm.methodIdentifiers,null,2)+';\n');console.log('Contract compiled; bytecode '+c.evm.bytecode.object.length/2+' bytes');

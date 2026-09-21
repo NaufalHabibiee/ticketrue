@@ -1,0 +1,20 @@
+{
+  "name": "ticketrue-premium",
+  "version": "2.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "npm run build && python3 -m http.server 8080 --directory dist",
+    "start": "npm run build && python3 -m http.server 8080 --directory dist",
+    "build": "node scripts/prepare-assets.cjs",
+    "compile:contract": "node scripts/compile-contract.cjs"
+  },
+  "dependencies": {
+    "@fontsource/roboto": "^5.2.0",
+    "qrcode-generator": "^1.4.4",
+    "three": "0.186.0"
+  },
+  "devDependencies": {
+    "solc": "0.8.20"
+  }
+}
