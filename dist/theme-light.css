@@ -913,30 +913,30 @@ label .csel{margin-top:8px}
 .rs-page .rs-head h2{color:#0c2d50}
 .rs-page .rs-head .text-button{color:#b06a05}
 .rs-sub{margin-left:auto;font-size:14px;color:#56708e}
-.rs-list{display:grid;gap:12px}
-.rs-row{display:grid;grid-template-columns:118px minmax(0,1.5fr) minmax(0,1.05fr) minmax(0,.95fr) auto;gap:26px;align-items:center;padding:14px 22px 14px 14px;border:1px solid #dfe8f2;border-radius:10px;background:#fff;box-shadow:0 2px 8px #0c2d500d;transition:transform .2s,border-color .2s,box-shadow .2s}
-.rs-row:hover{transform:translateY(-2px);border-color:#F9A12B;box-shadow:0 8px 20px #0c2d5014}
-.rs-date{position:relative;overflow:hidden;width:118px;height:118px;padding:13px 0 0 15px;border-radius:8px}
-.rs-date::after{content:"";position:absolute;top:-28px;right:-28px;width:80px;height:80px;border-radius:50%;background:currentColor;opacity:.13}
-.rs-date b{position:relative;z-index:1;display:block;font-size:56px;font-weight:800;line-height:.9;letter-spacing:-.06em}
-.rs-date span{position:relative;z-index:1;display:block;margin-top:9px;font-size:18px;font-weight:600}
+.rs-list{display:grid;gap:8px}
+.rs-row{display:grid;grid-template-columns:76px minmax(0,1.6fr) minmax(0,1fr) minmax(0,.9fr) auto;gap:18px;align-items:center;padding:9px 16px 9px 9px;border:1px solid #e1eaf3;border-radius:8px;background:#fff;transition:border-color .2s,box-shadow .2s}
+.rs-row:hover{border-color:#F9A12B;box-shadow:0 4px 14px #0c2d5012}
+.rs-date{position:relative;overflow:hidden;width:76px;height:76px;padding:8px 0 0 10px;border-radius:6px}
+.rs-date::after{content:"";position:absolute;top:-20px;right:-20px;width:54px;height:54px;border-radius:50%;background:currentColor;opacity:.13}
+.rs-date b{position:relative;z-index:1;display:block;font-size:34px;font-weight:800;line-height:.9;letter-spacing:-.06em}
+.rs-date span{position:relative;z-index:1;display:block;margin-top:6px;font-size:13px;font-weight:600}
 .tile-amber .rs-date{background:#ffe3b8;color:#0c2d50}
 .tile-blue .rs-date{background:#d6e6fb;color:#0c2d50}
 .tile-navy .rs-date{background:#0c2d50;color:#fff}
 .tile-cream .rs-date{background:#fff1dd;color:#0c2d50}
-.rs-main h3{margin:0 0 5px;font-size:23px;font-weight:800;line-height:1.15;letter-spacing:-.03em;color:#0c2d50}
-.rs-main p{margin:2px 0 0;font-size:15px;line-height:1.5;color:#56708e}
-.rs-seat strong{display:block;font-size:18px;line-height:1.3;color:#0c2d50}
-.rs-seat span{display:block;margin-top:3px;font-size:15px;color:#56708e}
-.rs-badge{display:inline-block;margin-top:10px;padding:6px 12px;border-radius:6px;background:#fff1dd;color:#0c2d50;font-size:13px;font-style:normal;font-weight:600}
+.rs-main h3{margin:0 0 3px;font-size:17px;font-weight:800;line-height:1.15;letter-spacing:-.02em;color:#0c2d50}
+.rs-main p{margin:1px 0 0;font-size:13px;line-height:1.4;color:#56708e}
+.rs-seat strong{display:block;font-size:15px;line-height:1.3;color:#0c2d50}
+.rs-seat span{display:block;margin-top:1px;font-size:13px;color:#56708e}
+.rs-badge{display:inline-block;margin-top:5px;padding:3px 9px;border-radius:5px;background:#fff1dd;color:#0c2d50;font-size:11.5px;font-style:normal;font-weight:600}
 .rs-badge.plain{background:#eef3f9;color:#0c2d50}
-.rs-priceblock s{display:block;font-size:15px;color:#8a9db3}
-.rs-priceblock strong{display:block;font-size:29px;font-weight:800;line-height:1.1;letter-spacing:-.03em;color:#0c2d50}
-.rs-act{display:flex;flex-direction:column;align-items:center;gap:8px}
-.rs-act .rs-btn{padding:15px 30px;border:0;border-radius:8px;background:#F9A12B;color:#0c2d50;font-size:16px;font-weight:700;box-shadow:0 4px 12px #f9a12b44;transition:transform .2s,background .2s}
-.rs-act .rs-btn:hover{background:#ffb347;transform:translateY(-1px)}
-.rs-act .rs-cancel{color:#b06a05;font-size:13px;text-decoration:underline}
-.rs-act .resale-yours{color:#b06a05}
+.rs-priceblock s{display:block;font-size:12px;line-height:1.2;color:#8a9db3}
+.rs-priceblock strong{display:block;font-size:21px;font-weight:800;line-height:1.15;letter-spacing:-.02em;color:#0c2d50}
+.rs-act{display:flex;flex-direction:column;align-items:center;gap:4px}
+.rs-act .rs-btn{padding:10px 22px;border:0;border-radius:6px;background:#F9A12B;color:#0c2d50;font-size:14px;font-weight:700;box-shadow:none;transition:background .2s}
+.rs-act .rs-btn:hover{background:#ffb347;transform:none}
+.rs-act .rs-cancel{color:#b06a05;font-size:12px;text-decoration:underline}
+.rs-act .resale-yours{color:#b06a05;font-size:13px}
 .rs-cta-wrap{padding-top:36px}
 .rs-cta-card{display:flex;align-items:center;justify-content:space-between;gap:32px;padding:28px 32px;border:1px solid #f1d9b3;border-radius:12px;background:#fff6e8;color:#0c2d50}
 .rs-cta-card h2{margin:0;font-size:clamp(24px,3vw,34px);font-weight:800;line-height:1.1;letter-spacing:-.04em;color:#0c2d50}
@@ -953,6 +953,6 @@ label .csel{margin-top:8px}
 .rs-page .resale-box input,.rs-page .rs-price input{border-radius:6px}
 .rs-page .rs-empty{border:1px dashed #c4d6e8;border-radius:10px}
 .rs-page .rs-block{padding-bottom:20px}
-@media(max-width:1180px){.rs-row{grid-template-columns:118px minmax(0,1fr) minmax(0,1fr);gap:16px 22px}.rs-priceblock{grid-column:2}.rs-act{grid-column:3;align-items:flex-end}}
-@media(max-width:800px){.rs-row{grid-template-columns:96px minmax(0,1fr);padding:12px}.rs-date{width:96px;height:96px;padding:10px 0 0 12px}.rs-date b{font-size:44px}.rs-main h3{font-size:19px}.rs-priceblock,.rs-seat{grid-column:1/-1}.rs-act{grid-column:1/-1;align-items:stretch}.rs-act .rs-btn{width:100%}.rs-cta-card{flex-direction:column;align-items:flex-start;padding:22px 20px}.rs-cta-btns{width:100%}.rs-cta-btns .btn{flex:1 1 auto}.rs-sub{margin-left:0;width:100%}}
+@media(max-width:1180px){.rs-row{grid-template-columns:76px minmax(0,1fr) minmax(0,1fr);gap:8px 18px}.rs-priceblock{grid-column:2}.rs-act{grid-column:3;align-items:flex-end}}
+@media(max-width:800px){.rs-row{grid-template-columns:64px minmax(0,1fr);padding:8px}.rs-date{width:64px;height:64px;padding:7px 0 0 9px}.rs-date b{font-size:28px}.rs-date span{font-size:12px}.rs-main h3{font-size:16px}.rs-priceblock,.rs-seat{grid-column:1/-1}.rs-act{grid-column:1/-1;align-items:stretch}.rs-act .rs-btn{width:100%}.rs-cta-card{flex-direction:column;align-items:flex-start;padding:22px 20px}.rs-cta-btns{width:100%}.rs-cta-btns .btn{flex:1 1 auto}.rs-sub{margin-left:0;width:100%}}
 @media(prefers-reduced-motion:reduce){.rs-row,.rs-act .rs-btn{transition:none}.rs-row:hover{transform:none}}
