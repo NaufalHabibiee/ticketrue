@@ -1,10 +1,13 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
-/// @notice Hackathon prototype. Demo claims must only be enabled for test/demo events.
+/// @notice Hackathon prototype. Demo claims are testnet-only: createEvent refuses them on BOT Chain Mainnet.
+/// @dev Seated concerts have three price zones. Seats are numbered 1-60 (rows A-F, ten seats each): seats 1-20 are zone 0 (back),
+///      21-40 zone 1 (sides), 41-60 zone 2 (front/VIP). The zone, and so the price, is derived from the seat number on-chain.
 contract Ticketrue {
-    address public immutable organizer;
+    address public organizer;
+    address public pendingOrganizer;
     uint256 public nextTicketId = 1;
-    struct EventData { bool exists; bool seated; bool demoClaims; uint256 tierCount; uint256 startsAt; }
+    struct EventData { bool exists; bool seated; bool demoClaims; uint256 tierCount; uint256 startsAt; bool closed; }
     struct Option { uint256 price; uint256 capacity; uint256 issued; }
     /// @dev `paid` is what the current holder paid (0 for free demo claims). It is also the ceiling for any resale price.
     struct Ticket { uint256 id; uint256 eventId; address owner; uint256 issuedAt; bool valid; uint256 tier; uint256 seat; bool used; uint256 paid; }
@@ -20,6 +23,9 @@ contract Ticketrue {
     mapping(address => bool) public staff;
     /// @notice Share of every resale (in basis points) that stays in the contract for the organizer.
     uint256 public constant RESALE_FEE_BPS = 500;
+    uint256 public constant SEAT_ZONES = 3;
+    uint256 public constant SEATS_PER_ZONE = 20;
+    uint256 private constant MAINNET_CHAIN_ID = 677;
     event EventCreated(uint256 indexed eventId);
     event TicketIssued(uint256 indexed ticketId, uint256 indexed eventId, address indexed owner);
     event TicketListed(uint256 indexed ticketId, uint256 indexed eventId, uint256 price);
@@ -27,20 +33,32 @@ contract Ticketrue {
     event TicketResold(uint256 indexed ticketId, address indexed from, address indexed to, uint256 price);
     event TicketCheckedIn(uint256 indexed ticketId, address indexed by);
     event StaffSet(address indexed account, bool allowed);
+    event EventClosed(uint256 indexed eventId);
+    event Withdrawn(address indexed recipient, uint256 amount);
+    event OrganizerTransferStarted(address indexed from, address indexed to);
+    event OrganizerTransferred(address indexed from, address indexed to);
     modifier onlyOrganizer() { require(msg.sender == organizer, "Organizer only"); _; }
     constructor() { organizer = msg.sender; }
+    /// @notice Two-step handover so the admin role can never be sent to a wrong address by mistake.
+    function transferOrganizer(address next) external onlyOrganizer { require(next != address(0), "Zero address"); pendingOrganizer = next; emit OrganizerTransferStarted(msg.sender, next); }
+    function acceptOrganizer() external { require(msg.sender == pendingOrganizer, "Not pending organizer"); emit OrganizerTransferred(organizer, msg.sender); organizer = msg.sender; pendingOrganizer = address(0); }
     function createEvent(uint256 id, bool seated, bool demoClaims, uint256 startsAt, uint256[] calldata prices, uint256[] calldata capacities) external onlyOrganizer {
         require(!events[id].exists && prices.length > 0 && prices.length == capacities.length, "Invalid event");
         require(startsAt > block.timestamp, "Past event");
-        require(!seated || prices.length == 1, "Seated event needs one option");
-        events[id] = EventData(true, seated, demoClaims, prices.length, startsAt);
-        for(uint256 i; i<prices.length; i++) { require(capacities[i]>0 && (!seated || capacities[i] <= 60), "Invalid capacity"); options[id][i]=Option(prices[i],capacities[i],0); }
+        require(!seated || prices.length == SEAT_ZONES, "Seated event needs three zone prices");
+        require(!demoClaims || block.chainid != MAINNET_CHAIN_ID, "Demo claims are testnet only");
+        events[id] = EventData(true, seated, demoClaims, prices.length, startsAt, false);
+        for(uint256 i; i<prices.length; i++) { require(capacities[i]>0 && (!seated || capacities[i] <= SEATS_PER_ZONE), "Invalid capacity"); options[id][i]=Option(prices[i],capacities[i],0); }
         emit EventCreated(id);
     }
+    /// @notice Stops new primary sales for a concert (wrong price or date, or cancelled). Existing tickets and resale are unaffected.
+    function closeEvent(uint256 id) external onlyOrganizer { require(events[id].exists && !events[id].closed, "Cannot close"); events[id].closed = true; emit EventClosed(id); }
     function getOption(uint256 id,uint256 tier,uint256 seat) public view returns(uint256 price,uint256 remaining,bool taken) {
-        EventData memory e=events[id]; require(e.exists && block.timestamp<e.startsAt && tier<e.tierCount,"Invalid event or tier");
-        require(e.seated ? seat>0 && seat<=60 && tier==0 : seat==0,"Invalid seat");
-        Option memory o=options[id][tier]; return(o.price,o.capacity-o.issued,e.seated && seatTaken[id][seat]);
+        EventData memory e=events[id]; require(e.exists && !e.closed && block.timestamp<e.startsAt,"Not on sale");
+        uint256 t=tier;
+        if(e.seated){ require(seat>0 && seat<=SEAT_ZONES*SEATS_PER_ZONE,"Invalid seat"); t=(seat-1)/SEATS_PER_ZONE; }
+        else { require(seat==0 && tier<e.tierCount,"Invalid tier"); }
+        Option memory o=options[id][t]; return(o.price,o.capacity-o.issued,e.seated && seatTaken[id][seat]);
     }
     function buyTicket(uint256 id,uint256 tier,uint256 seat) external payable returns(uint256) {
         (uint256 price,,)=getOption(id,tier,seat); require(msg.value==price,"Incorrect payment"); return _issue(id,tier,seat);
@@ -51,8 +69,9 @@ contract Ticketrue {
     function _issue(uint256 id,uint256 tier,uint256 seat) internal returns(uint256 tid) {
         (,uint256 remaining,bool taken)=getOption(id,tier,seat);
         require(ticketOf[id][msg.sender]==0,"One ticket per wallet"); require(remaining>0 && !taken,"Sold out or seat taken");
-        options[id][tier].issued++; if(events[id].seated)seatTaken[id][seat]=true;
-        tid=nextTicketId++; tickets[tid]=Ticket(tid,id,msg.sender,block.timestamp,true,tier,seat,false,msg.value); ticketOf[id][msg.sender]=tid; owned[msg.sender].push(tid);
+        uint256 t=events[id].seated ? (seat-1)/SEATS_PER_ZONE : tier;
+        options[id][t].issued++; if(events[id].seated)seatTaken[id][seat]=true;
+        tid=nextTicketId++; tickets[tid]=Ticket(tid,id,msg.sender,block.timestamp,true,t,seat,false,msg.value); ticketOf[id][msg.sender]=tid; owned[msg.sender].push(tid);
         emit TicketIssued(tid,id,msg.sender);
     }
     // ---- Fair resale: a ticket can only be resold at or below what its holder paid. ----
@@ -111,5 +130,5 @@ contract Ticketrue {
     function verifyTicket(uint256 id,address owner) external view returns(bool) { return tickets[id].valid && tickets[id].owner==owner; }
     function hasTicketForEvent(uint256 id,address owner) external view returns(bool) { return ticketOf[id][owner]!=0; }
     function getWalletTickets(address owner) external view returns(uint256[] memory) { return owned[owner]; }
-    function withdraw(address payable recipient) external onlyOrganizer { require(recipient!=address(0)); (bool ok,)=recipient.call{value:address(this).balance}(""); require(ok,"Withdraw failed"); }
+    function withdraw(address payable recipient) external onlyOrganizer { require(recipient!=address(0)); uint256 amount=address(this).balance; (bool ok,)=recipient.call{value:amount}(""); require(ok,"Withdraw failed"); emit Withdrawn(recipient,amount); }
 }

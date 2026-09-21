@@ -14,7 +14,58 @@
         "type": "uint256"
       }
     ],
+    "name": "EventClosed",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "uint256",
+        "name": "eventId",
+        "type": "uint256"
+      }
+    ],
     "name": "EventCreated",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "OrganizerTransferStarted",
+    "type": "event"
+  },
+  {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
+      }
+    ],
+    "name": "OrganizerTransferred",
     "type": "event"
   },
   {
@@ -150,6 +201,25 @@
     "type": "event"
   },
   {
+    "anonymous": false,
+    "inputs": [
+      {
+        "indexed": true,
+        "internalType": "address",
+        "name": "recipient",
+        "type": "address"
+      },
+      {
+        "indexed": false,
+        "internalType": "uint256",
+        "name": "amount",
+        "type": "uint256"
+      }
+    ],
+    "name": "Withdrawn",
+    "type": "event"
+  },
+  {
     "inputs": [],
     "name": "RESALE_FEE_BPS",
     "outputs": [
@@ -160,6 +230,39 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "SEATS_PER_ZONE",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "SEAT_ZONES",
+    "outputs": [
+      {
+        "internalType": "uint256",
+        "name": "",
+        "type": "uint256"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "acceptOrganizer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
@@ -289,6 +392,19 @@
         "internalType": "uint256",
         "name": "id",
         "type": "uint256"
+      }
+    ],
+    "name": "closeEvent",
+    "outputs": [],
+    "stateMutability": "nonpayable",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "uint256",
+        "name": "id",
+        "type": "uint256"
       },
       {
         "internalType": "bool",
@@ -355,6 +471,11 @@
         "internalType": "uint256",
         "name": "startsAt",
         "type": "uint256"
+      },
+      {
+        "internalType": "bool",
+        "name": "closed",
+        "type": "bool"
       }
     ],
     "stateMutability": "view",
@@ -510,6 +631,19 @@
   {
     "inputs": [],
     "name": "organizer",
+    "outputs": [
+      {
+        "internalType": "address",
+        "name": "",
+        "type": "address"
+      }
+    ],
+    "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [],
+    "name": "pendingOrganizer",
     "outputs": [
       {
         "internalType": "address",
@@ -681,6 +815,19 @@
       }
     ],
     "stateMutability": "view",
+    "type": "function"
+  },
+  {
+    "inputs": [
+      {
+        "internalType": "address",
+        "name": "next",
+        "type": "address"
+      }
+    ],
+    "name": "transferOrganizer",
+    "outputs": [],
+    "stateMutability": "nonpayable",
     "type": "function"
   },
   {
