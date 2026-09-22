@@ -787,7 +787,7 @@ label .csel{margin-top:8px}
 .motion-on .how-rail i{opacity:0;transform:scale(.2)}
 .motion-on .how.in .how-rail i{animation:hvDot .5s cubic-bezier(.22,1,.36,1) both}
 .motion-on .how.in .how-rail i:nth-child(2){animation-delay:.45s}.motion-on .how.in .how-rail i:nth-child(3){animation-delay:.9s}.motion-on .how.in .how-rail i:nth-child(4){animation-delay:1.35s}
-.motion-on .hv-row,.motion-on .hv-seats span,.motion-on .hv-chip,.motion-on .hv-stamp,.motion-on .hv-signed{opacity:0}
+.motion-on .hv-row,.motion-on .hv-seats span,.motion-on .hv-chip,.motion-on .hv-stamp,.motion-on .hv-signed,.motion-on .hv-zrow,.motion-on .hv-step u{opacity:0}
 .motion-on .hv-type{clip-path:inset(0 100% 0 0)}
 .motion-on .how.in .hv-type{animation:hvType 1s .5s steps(4,end) both}
 .motion-on .how.in .hv-row{animation:hvRow .6s calc(1.2s + var(--r)*.15s) cubic-bezier(.22,1,.36,1) both}
@@ -795,6 +795,9 @@ label .csel{margin-top:8px}
 .motion-on .how.in .hv-cursor{animation:hvCursor 5s 2s ease-in-out infinite}
 .motion-on .how.in .hv-seats span{animation:hvSeat .45s calc(.5s + var(--i)*24ms) cubic-bezier(.22,1,.36,1) both}
 .motion-on .how.in .hv-seats span.pick{animation:hvSeat .45s calc(.5s + var(--i)*24ms) cubic-bezier(.22,1,.36,1) both,hvPick 2.4s 2s ease-out infinite}
+.motion-on .how.in .hv-zrow{animation:hvRow .55s calc(.6s + var(--r)*.18s) cubic-bezier(.22,1,.36,1) both}
+.motion-on .how.in .hv-zrow.hot{animation:hvRow .55s .6s cubic-bezier(.22,1,.36,1) both,hvHot 3.6s 2.5s ease-in-out infinite}
+.motion-on .how.in .hv-step u{animation:hvRise .4s 1.6s cubic-bezier(.22,1,.36,1) both}
 .motion-on .how.in .hv-chip{animation:hvRise .6s 1.7s cubic-bezier(.22,1,.36,1) both}
 .motion-on .how.in .hv-scan{animation:hvScan 2.6s .8s linear infinite}
 .motion-on .how.in .hv-ring-run{animation:hvRing 6s linear infinite}
@@ -956,3 +959,42 @@ label .csel{margin-top:8px}
 @media(max-width:1180px){.rs-row{grid-template-columns:76px minmax(0,1fr) minmax(0,1fr);gap:8px 18px}.rs-priceblock{grid-column:2}.rs-act{grid-column:3;align-items:flex-end}}
 @media(max-width:800px){.rs-row{grid-template-columns:64px minmax(0,1fr);padding:8px}.rs-date{width:64px;height:64px;padding:7px 0 0 9px}.rs-date b{font-size:28px}.rs-date span{font-size:12px}.rs-main h3{font-size:16px}.rs-priceblock,.rs-seat{grid-column:1/-1}.rs-act{grid-column:1/-1;align-items:stretch}.rs-act .rs-btn{width:100%}.rs-cta-card{flex-direction:column;align-items:flex-start;padding:22px 20px}.rs-cta-btns{width:100%}.rs-cta-btns .btn{flex:1 1 auto}.rs-sub{margin-left:0;width:100%}}
 @media(prefers-reduced-motion:reduce){.rs-row,.rs-act .rs-btn{transition:none}.rs-row:hover{transform:none}}
+
+/* Zone/tier cards with a quantity stepper, replacing the individual-seat grid. Buying is now: pick a zone or
+   tier, choose a quantity (up to 4 tickets per wallet, possibly split across zones), then check out. */
+.opt-list{display:grid;gap:12px;margin-bottom:18px}
+.opt-card{display:flex;align-items:center;gap:16px;padding:16px 18px;border:1px solid #234163;border-radius:10px;background:#0a2544;transition:border-color .2s,opacity .2s}
+.opt-card:hover{border-color:#3f6690}
+.opt-card.is-sold{opacity:.5}
+.opt-info{flex:1;min-width:0}
+.opt-info strong{display:block;font-size:15px;color:#fff}
+.opt-info small{display:block;margin-top:4px;color:#9eb6d2;font-size:12px}
+.opt-price{flex:0 0 auto;font-size:15px;font-weight:600;color:#fff;white-space:nowrap}
+.opt-step{display:flex;flex:0 0 auto;align-items:center;gap:10px}
+.opt-step-btn{display:grid;place-items:center;width:32px;height:32px;padding:0;border:1px solid #34506e;border-radius:8px;background:#0d2f52;color:#fff;font-size:18px;line-height:1;cursor:pointer;transition:border-color .2s,color .2s}
+.opt-step-btn:hover:not(:disabled){border-color:#F9A12B;color:#F9A12B}
+.opt-step-btn:disabled{opacity:.35;cursor:not-allowed}
+.opt-step-n{min-width:22px;text-align:center;font-variant-numeric:tabular-nums;font-weight:600;color:#fff}
+.selection-summary{display:grid;gap:8px;padding:16px 0}
+.selection-summary>.muted{font-size:13px}
+.cart-line{display:flex;justify-content:space-between;gap:16px;font-size:13px;color:#cdd8e9}
+.cart-line.cart-fee{color:#8ea7c4}
+.cart-line.cart-total{padding-top:12px;margin-top:4px;border-top:1px solid #234163;font-size:17px;color:#fff}
+.cart-line.cart-total strong{font-weight:600}
+@media(max-width:700px){.opt-card{flex-wrap:wrap;gap:10px 16px}.opt-price{order:2}.opt-step{order:3;flex-basis:100%;justify-content:flex-end}}
+
+/* About page: zone + quantity mock (replaces the mini seat grid) */
+.about-mini-zones{display:grid;gap:10px;max-width:320px;margin:0 auto}
+.about-mini-zone{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:10px 14px;border:1px solid #d5e3f0;border-radius:8px;background:#f6faff;font-size:13px;color:#123b69}
+.about-mini-zone.picked{border-color:#F9A12B;background:#fff6e8}
+.about-mini-zone i{font-style:normal;font-variant-numeric:tabular-nums;color:#56708e}
+.about-mini-zone.picked i{color:#b06a05;font-weight:600}
+
+/* How-it-works step 2: zone rows with a quantity stepper (replaces the seat grid mock) */
+.hv-zone{display:flex;flex-direction:column;justify-content:center;gap:10px;padding:16px 18px}
+.hv-zrow{display:flex;align-items:center;justify-content:space-between;gap:12px;padding:8px 10px;border-radius:8px;background:#ffffff0d;font-size:12.5px;color:#cfe0f3}
+.hv-zrow.hot{background:#F9A12B1f}
+.hv-zrow b{font:600 12px/1 var(--mono);color:#fff}
+.hv-step{display:flex;align-items:center;gap:6px;font:600 11px/1 var(--mono);color:#9dbbdc}
+.hv-step u{font-style:normal;color:#F9A12B}
+.hv-step s{text-decoration:none;min-width:12px;text-align:center;color:#fff}

@@ -24,8 +24,8 @@ const TOPICS=[
   en:()=>'Ticketrue is a concert ticketing prototype built on BOT Chain. Your ticket is recorded on-chain under your wallet, so ownership can be verified later. All concerts here are fictional. See [Our story](#/about).',
   id:()=>'Ticketrue adalah prototipe tiket konser di BOT Chain. Tiketmu tercatat on-chain atas nama wallet-mu, jadi kepemilikannya bisa diverifikasi. Semua konser di sini fiktif. Lihat [Our story](#/about).'},
  {k:['how to buy','how do i buy','buy a ticket','buy ticket','purchase','order','checkout','get a ticket','beli tiket','cara beli','membeli','pesan tiket','beli','pesan'],
-  en:()=>'1. Open [Concerts](#/discover) and pick a show.\n2. Choose a seat (seated shows) or a tier.\n3. Press **Continue to checkout**.\n4. On the **BOT Chain** tab, connect MetaMask and press **Buy on BOT Chain**, then confirm in MetaMask.\nNo BOT? Use the free testnet claim, or the **Demo** tab to try the flow without a wallet.',
-  id:()=>'1. Buka [Concerts](#/discover) dan pilih konser.\n2. Pilih kursi (konser berkursi) atau tier.\n3. Tekan **Continue to checkout**.\n4. Di tab **BOT Chain**, hubungkan MetaMask lalu tekan **Buy on BOT Chain** dan konfirmasi di MetaMask.\nTidak punya BOT? Pakai klaim tiket testnet gratis, atau tab **Demo** untuk mencoba alurnya tanpa wallet.'},
+  en:()=>'1. Open [Concerts](#/discover) and pick a show.\n2. Choose a zone or tier, set the quantity (up to 4 tickets), then press **Continue to checkout**.\n3. On the **BOT Chain** tab, connect MetaMask and press **Buy on BOT Chain**, then confirm in MetaMask.\nNo BOT? Use the free testnet claim, or the **Demo** tab to try the flow without a wallet.',
+  id:()=>'1. Buka [Concerts](#/discover) dan pilih konser.\n2. Pilih zona atau tier, atur jumlahnya (maksimal 4 tiket), lalu tekan **Continue to checkout**.\n3. Di tab **BOT Chain**, hubungkan MetaMask lalu tekan **Buy on BOT Chain** dan konfirmasi di MetaMask.\nTidak punya BOT? Pakai klaim tiket testnet gratis, atau tab **Demo** untuk mencoba alurnya tanpa wallet.'},
  {k:['wallet','metamask','connect wallet','connect','hubungkan','sambungkan','dompet'],
   en:()=>'Press **Connect wallet** in the header (no login needed). Ticketrue uses MetaMask and will ask you to add or switch to **BOT Chain Testnet** if needed. It never asks for your recovery phrase.',
   id:()=>'Tekan **Connect wallet** di header (tidak perlu login). Ticketrue memakai MetaMask dan akan meminta kamu menambah atau pindah ke **BOT Chain Testnet** bila perlu. Situs ini tidak pernah meminta recovery phrase.'},
@@ -36,8 +36,8 @@ const TOPICS=[
   en:()=>'The **Demo** tab simulates QRIS, bank and e-wallet payments: no real money moves and it is not scannable. Real purchases use BOT on BOT Chain, and the price is shown in BOT at checkout.',
   id:()=>'Tab **Demo** mensimulasikan pembayaran QRIS, bank, dan e-wallet: tidak ada uang sungguhan dan QR-nya tidak bisa dipindai. Pembelian asli memakai BOT di BOT Chain, dan harganya tampil dalam BOT di checkout.'},
  {k:['seat selection','seat','seats','tier','tiers','category','cat 1','cat 2','vip','zone','zona','kursi','kategori','tipe tiket','ticket type','ticket types'],
-  en:(c)=>'There are two kinds of shows. **Seat selection** shows let you pick a seat on the venue map (three zones, each with its own on-chain price). **Tier** shows let you pick a ticket category such as Festival, CAT 1 or VIP. '+(c.seated.length?`Seated: ${c.seated.map(e=>e.title).join(', ')}.`:'')  ,
-  id:(c)=>'Ada dua jenis konser. **Seat selection**: kamu memilih kursi di denah venue (tiga zona, tiga harga). **Tier**: kamu memilih kategori tiket seperti Festival, CAT 1, atau VIP. '+(c.seated.length?`Konser berkursi: ${c.seated.map(e=>e.title).join(', ')}.`:'')},
+  en:(c)=>'There are two kinds of shows. **Seated venue** shows have three fixed zones (back, sides, front/VIP), each its own price. **Tier** shows have their own named tiers, like Festival, CAT 1 or VIP. Either way you pick a zone or tier and a quantity, up to 4 tickets per wallet, and can mix zones in one order. '+(c.seated.length?`Seated: ${c.seated.map(e=>e.title).join(', ')}.`:''),
+  id:(c)=>'Ada dua jenis konser. **Seated venue**: tiga zona tetap (belakang, samping, depan/VIP), masing-masing harganya sendiri. **Tier**: kategori tiket dengan nama sendiri, seperti Festival, CAT 1, atau VIP. Di keduanya kamu memilih zona atau tier lalu jumlahnya, maksimal 4 tiket per wallet, dan bisa mencampur beberapa zona dalam satu pesanan. '+(c.seated.length?`Konser berkursi: ${c.seated.map(e=>e.title).join(', ')}.`:'')},
  {k:['one ticket','per wallet','limit','maximum','how many tickets','satu tiket','maksimal','berapa tiket','batas'],
   en:()=>'Each wallet can hold one ticket per concert. Buying a second one for the same concert is blocked.',
   id:()=>'Satu wallet hanya bisa memegang satu tiket per konser. Membeli tiket kedua untuk konser yang sama akan ditolak.'},
@@ -48,7 +48,7 @@ const TOPICS=[
   en:()=>'Open [My Tickets](#/tickets) and press **View ticket**. Every ticket has a QR code that opens a public check page. For on-chain tickets, **Show live pass** makes your wallet sign a 5-minute pass, so a screenshot stops working, and the check page confirms the holder. Demo tickets are labelled and are not valid for admission.',
   id:()=>'Buka [My Tickets](#/tickets) lalu tekan **View ticket**. Setiap tiket punya kode QR yang membuka halaman cek publik. Untuk tiket on-chain, **Show live pass** meminta wallet-mu menandatangani pass 5 menit, jadi screenshot tidak berguna, dan halaman cek mengonfirmasi pemegangnya. Tiket demo diberi label dan tidak valid untuk masuk.'},
  {k:['sold out','waitlist','wait list','notify me','on sale soon','only left','habis','sold','daftar tunggu','kehabisan','wishlist','save concert','saved','favorite','favourite','simpan konser','favorit'],en:()=>'Concert cards show **Sold out**, **Only N left** or **On sale soon** based on live stock. On a sold-out or not-yet-open concert you can **Join the waitlist** (saved on this device, and you get a note when tickets return), and any resale tickets are listed there. The heart button saves a concert to your list, shown under [My Tickets](#/tickets).',id:()=>'Kartu konser menampilkan **Sold out**, **Only N left**, atau **On sale soon** sesuai stok langsung. Di konser yang habis atau belum dibuka kamu bisa **Join the waitlist** (tersimpan di perangkat ini, dan kamu diberi tahu saat tiket kembali), dan tiket resale yang tersedia ditampilkan di sana. Tombol hati menyimpan konser ke daftarmu, tampil di [My Tickets](#/tickets).'},
- {k:['calendar','add to calendar','ics','reminder','remind me','kalender','pengingat','share','bagikan','download ticket','unduh tiket','unduh','save ticket','simpan tiket'],en:()=>'On a ticket page you can **Add to calendar** (a .ics file with the date, venue and a 3-hour reminder), **Share** the concert link, and **Download e-ticket (PDF)** with its QR code, seat and order details.',id:()=>'Di halaman tiket kamu bisa **Add to calendar** (file .ics berisi tanggal, venue, dan pengingat 3 jam sebelumnya), **Share** link konser, dan **Download e-ticket (PDF)** lengkap dengan QR, kursi, dan detail pesanan.'},
+ {k:['calendar','add to calendar','ics','reminder','remind me','kalender','pengingat','share','bagikan','download ticket','unduh tiket','unduh','save ticket','simpan tiket'],en:()=>'On a ticket page you can **Add to calendar** (a .ics file with the date, venue and a 3-hour reminder), **Share** the concert link, and **Download e-ticket (PDF)** with its QR code, ticket type and order details.',id:()=>'Di halaman tiket kamu bisa **Add to calendar** (file .ics berisi tanggal, venue, dan pengingat 3 jam sebelumnya), **Share** link konser, dan **Download e-ticket (PDF)** lengkap dengan QR, kursi, dan detail pesanan.'},
  {k:['dashboard','sales','revenue','withdraw','payout','penjualan','pendapatan','tarik dana','staff','gate staff'],en:()=>'Organizers have a [Dashboard](#/dashboard): tickets sold per concert, resale volume, check-ins, a withdraw button, gate staff management, and a form to publish each concert on-chain. Actions only work with the organizer wallet.',id:()=>'Organizer punya [Dashboard](#/dashboard): tiket terjual per konser, volume resale, jumlah check-in, tombol tarik dana, pengelolaan staf gerbang, dan form untuk mempublikasikan tiap konser on-chain. Aksi hanya bisa dengan wallet organizer.'},
  {k:['cancel listing','resale ticket','buy resale','tiket resale','beli resale','resell','resale','re-sell','sell my ticket','sell ticket','sell','scalp','scalper','calo','jual ulang','jual kembali','jual tiket','menjual','jual','marketplace'],
   en:()=>'Go to [Resell](#/resell). You can list a ticket you paid for at any price **up to what you paid**, never above it. The buyer pays and gets the ticket in one step, and 5% of each resale goes to the organizer. Free-claimed and already-used tickets can’t be resold. Right now resale may run in demo mode, which is simulated in your browser.',
@@ -86,7 +86,7 @@ const ATTRS={
   date:['when','date','time','what time','kapan','tanggal','jam','hari','waktu'],
   place:['where','venue','location','city','dimana','di mana','lokasi','tempat','kota'],
   price:['price','cost','how much','harga','berapa','biaya','tarif','murah'],
-  tiers:['tier','category','kategori','seat','kursi','types','tipe'],
+  tiers:['tier','category','kategori','zone','zona','kursi','types','tipe'],
   who:['who','artist','performer','siapa','penyanyi','band','bintang'],
   genre:['genre','music','musik','style','aliran'],
   sched:['schedule','doors','door','set time','set times','running order','jadwal','pintu','mulai jam','jam berapa'],
@@ -114,7 +114,7 @@ export function mountAssistant(getCtx){
 
   const ctx=()=>{const c=getCtx(),events=c.events;return{...c,events,seated:events.filter(e=>e.mode==='seat'),live:!!c.contractAddress,address:c.contractAddress}};
   const describe=(e,c,l,only)=>{const when=`${c.date(e.date)} · ${e.time} WIB`,where=`${e.venue}, ${e.city}`,link=`[${e.title}](#/event/${e.slug})`;
-    const tiers=e.mode==='seat'?c.seatZones.map(z=>`${z.name} ${c.money(e.price+z.add)}`).join(' / '):e.tiers.map((t,i)=>`${t} ${c.money(e.price+i*250000)}`).join(' / ');
+    const tiers=e.mode==='seat'?c.seatZones.map(z=>`${z.name} ${c.money(e.price+z.add)}`).join(' / '):e.tiers.map((t,i)=>`${t} ${c.money(e.price+i*250000)}`).join(' / ');// zone or tier prices; buying lets you set a quantity per line, up to 4 tickets total
     const parts=[];
     if(only.date)parts.push(l==='id'?`Waktu: ${when}.`:`When: ${when}.`);
     if(only.place)parts.push(l==='id'?`Tempat: ${where}.`:`Where: ${where}.`);
@@ -123,7 +123,7 @@ export function mountAssistant(getCtx){
     if((only.sched||only.age)&&e.info){if(only.sched)parts.push((l==='id'?'Jadwal: ':'Schedule: ')+e.info.schedule.map(([t,x])=>`${t} ${x}`).join(' · ')+'.');if(only.age)parts.push((l==='id'?'Aturan: ':'Good to know: ')+e.info.age+' '+e.info.bag)}
     if(only.price||only.tiers)parts.push((l==='id'?'Harga: ':'Prices: ')+tiers+'.');
     if(parts.length)return `**${link}**\n`+parts.join('\n');
-    return `**${link}** · ${e.artist}\n${when} · ${where}\n${e.mode==='seat'?(l==='id'?'Pilih kursi':'Seat selection'):(l==='id'?'Pilih tier':'Ticket tiers')}: ${tiers}.`};
+    return `**${link}** · ${e.artist}\n${when} · ${where}\n${e.mode==='seat'?(l==='id'?'Zona':'Zones'):(l==='id'?'Tier':'Tiers')}: ${tiers}.`};
 
   function answer(raw){
     const t=norm(raw),c=ctx();

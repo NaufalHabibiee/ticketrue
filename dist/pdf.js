@@ -84,7 +84,7 @@ export function buildTicketPdf(d){
   P.rect(L,gy,CW,gh,{fill:'#f6faff',stroke:LINE,lw:.6,r:6});
   const col=[L+18,L+18+165,L+18+330],cw=150,cells=[
     ['DATE',d.date,0,0],['TIME',d.time,1,0],['VENUE',d.venue,2,0],
-    ['CITY',d.city,0,1],['TICKET TYPE',d.ticketType,1,1],['SEAT',d.seat||'General admission',2,1],
+    ['CITY',d.city,0,1],['TICKET TYPE',d.ticketType,1,1],['PRICE PAID',d.amount,2,1],
     ['TICKET ID',d.ticketId,0,2],['HOLDER',d.holder,1,2]
   ];
   for(const [label,val,c,r] of cells){
