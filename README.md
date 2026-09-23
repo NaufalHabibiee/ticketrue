@@ -43,7 +43,7 @@ Buying a concert ticket online has three familiar problems: fake or duplicated t
 
 | Version | File | Status |
 |---|---|---|
-| **v2** (used by the website) | [`contracts/Ticketrue.sol`](./contracts/Ticketrue.sol) | Deployed to BOT Chain Testnet, see below. |
+| **v2** (used by the website) | [`contracts/Ticketrue.sol`](./contracts/Ticketrue.sol) | Compiled and tested locally. Deployment pending, see below. |
 | **v1** (first prototype) | [`contracts/v1/TicketRue.sol`](./contracts/v1/TicketRue.sol) | Deployed and tested on BOT Chain Testnet. |
 
 Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been audited.
@@ -71,7 +71,9 @@ Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been au
 | Contract | Address | Explorer |
 |---|---|---|
 | v1 `TicketRue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
-| v2 `Ticketrue` | `0x85164A4B377b26161365cfA371Fa0FE7D3b78b8a` | https://scan.bohr.life/address/0x85164A4B377b26161365cfA371Fa0FE7D3b78b8a |
+| v2 `Ticketrue` | _TBD_ | _TBD_ |
+
+> Note: an earlier cart-based revision of `Ticketrue` was deployed to testnet at `0x85164A4B377b26161365cfA371Fa0FE7D3b78b8a` (block 24295412). That interface does not match the contract currently in this repo, so the site runs in demo mode until this version is (re)deployed.
 
 RPC: https://rpc.bohr.life
 

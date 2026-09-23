@@ -10,75 +10,37 @@ export function disconnect(){account=''}
 export async function connectWallet(){const a=await request('eth_requestAccounts');if(!addressOK(a[0]))throw Error('No wallet account selected.');let chain=await request('eth_chainId');if(chain.toLowerCase()!==chainConfig.chainId){try{await request('wallet_switchEthereumChain',[{chainId:chainConfig.chainId}])}catch(e){if(e.code===4902){await request('wallet_addEthereumChain',[chainConfig]);await request('wallet_switchEthereumChain',[{chainId:chainConfig.chainId}])}else throw e}}chain=await request('eth_chainId');if(chain.toLowerCase()!==chainConfig.chainId)throw Error('Switch to '+chainConfig.chainName+' to continue.');const current=await request('eth_accounts');account=current[0];return account}
 function configured(){if(!addressOK(contractAddress))throw Error('A deployed BOT Chain contract address is required.');}
 const word=x=>BigInt(x).toString(16).padStart(64,'0');
-const isAddr=x=>typeof x==='string'&&addressOK(x);
-const toWord=x=>typeof x==='boolean'?word(x?1:0):isAddr(x)?x.slice(2).toLowerCase().padStart(64,'0'):word(x);
-// Minimal ABI encoder: any arg that is a JS array becomes a dynamic uint256[] tail; everything else is a static word.
-function encodeCall(sig,args){
-  let tail='';
-  const head=args.map(a=>{
-    if(Array.isArray(a)){const offset=32*args.length+tail.length/2;tail+=word(a.length)+a.map(toWord).join('');return word(offset)}
-    return toWord(a);
-  });
-  return '0x'+selectors[sig]+head.join('')+tail;
-}
+const data=(sig,args)=>'0x'+selectors[sig]+args.map(x=>typeof x==='string'&&addressOK(x)?x.slice(2).toLowerCase().padStart(64,'0'):word(x)).join('');
 const words=hex=>{if(!hex||hex==='0x')throw Error('Contract returned no data. Check the deployed address and network.');return hex.slice(2).match(/.{64}/g)};
-async function call(sig,args){configured();return words(await rpc('eth_call',[{to:contractAddress,data:encodeCall(sig,args)},'latest']))}
+async function call(sig,args){configured();return words(await rpc('eth_call',[{to:contractAddress,data:data(sig,args)},'latest']))}
+const parts=o=>[o.eventId,o.seat?0:o.tierIndex,o.seat?('ABCDEF'.indexOf(o.seat[0])*10+Number(o.seat.slice(1))):0];
 async function ensureAccount(expected){const [accounts,chain]=await Promise.all([request('eth_accounts'),request('eth_chainId')]);if(accounts[0]?.toLowerCase()!==expected.toLowerCase()||chain.toLowerCase()!==chainConfig.chainId)throw Error('Wallet or network changed. Reconnect and review the order.');}
-const bot=wei=>{const n=Number(wei)/1e18;return (n>=1?n.toFixed(2):n.toPrecision(4)).replace(/\.?0+$/,'')+' BOT'};
+export async function issueTicket(order,{fiatDemo=false,status=()=>{}}={}){configured();const owner=await connectWallet();status('Checking ticket inventory…');const code=await request('eth_getCode',[contractAddress,'latest']);if(code==='0x')throw Error('No contract exists at the configured address.');const args=parts(order),[price,remaining,taken]=await call('getOption(uint256,uint256,uint256)',args);if(BigInt('0x'+remaining)===0n||BigInt('0x'+taken))throw Error('That seat or tier is sold out. Choose another ticket.');const existing=await call('ticketOf(uint256,address)',[order.eventId,owner]);if(BigInt('0x'+existing[0]))throw Error('This wallet already owns a ticket for this event.');const value=fiatDemo?'0x0':'0x'+BigInt('0x'+price).toString(16);const amount=Number(BigInt('0x'+price))/1e18;if(!window.confirm(fiatDemo?'Issue a free demo-claim ticket on BOT Chain? MetaMask will show network fees.':`Contract price: ${amount} BOT, plus network fees. Continue to MetaMask?`))throw Error('Transaction cancelled. Your order is saved.');await ensureAccount(owner);status('Confirm the transaction in MetaMask.');const tx=await request('eth_sendTransaction',[{from:owner,to:contractAddress,value,data:data(fiatDemo?'claimDemoTicket(uint256,uint256,uint256)':'buyTicket(uint256,uint256,uint256)',args)}]);sessionStorage.setItem('tr2:pending',JSON.stringify({tx,owner,order}));status('Transaction submitted. Waiting for BOT Chain confirmation…');let receipt;for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,2000));await ensureAccount(owner);receipt=await request('eth_getTransactionReceipt',[tx]);if(receipt)break}if(!receipt)throw Error('Confirmation is taking longer than expected. Transaction '+tx+' remains pending. Refresh on-chain tickets later; do not submit again yet.');if(BigInt(receipt.status)!==1n)throw Error('The transaction failed on-chain. No ticket was issued.');const idResult=await call('ticketOf(uint256,address)',[order.eventId,owner]);const id=BigInt('0x'+idResult[0]).toString();if(id==='0'||!await verifyTicket({id,owner}))throw Error('Transaction confirmed, but ownership was not verified. Check the explorer.');sessionStorage.removeItem('tr2:pending');status('Ownership confirmed on BOT Chain.');return{id,tx}}
+export async function verifyTicket(t){configured();const result=await call('verifyTicket(uint256,address)',[t.id,t.owner]);return BigInt('0x'+result[0])===1n}
+export async function getWalletTickets(){configured();const owner=await connectWallet(),r=await call('getWalletTickets(address)',[owner]);const n=Number(BigInt('0x'+r[1])),ids=r.slice(2,2+n).map(x=>BigInt('0x'+x).toString());return await Promise.all(ids.map(async id=>{const t=await call('tickets(uint256)',[id]),seatN=Number(BigInt('0x'+t[6]));return{id,eventId:Number(BigInt('0x'+t[1])),owner:'0x'+t[2].slice(24),issuedAt:new Date(Number(BigInt('0x'+t[3]))*1000).toISOString(),valid:BigInt('0x'+t[4])===1n,tierIndex:Number(BigInt('0x'+t[5])),tier:'Tier '+(Number(BigInt('0x'+t[5]))+1),seat:seatN?'ABCDEF'[Math.floor((seatN-1)/10)]+((seatN-1)%10+1):undefined,demo:false,used:BigInt('0x'+t[7])===1n,paid:BigInt('0x'+t[8]).toString()}}))}
 
-// ---- Read-only access goes straight to the BOT Chain RPC, so visitors see live data without a wallet. ----
+// Read-only access goes straight to the BOT Chain RPC, so visitors see live data without a wallet and regardless of the wallet's current network.
 const RPC_URL=chainConfig.rpcUrls[0];let rpcId=1;
 async function rpcPost(payload){const r=await fetch(RPC_URL,{method:'POST',headers:{'content-type':'application/json'},body:JSON.stringify(payload)});if(!r.ok)throw Error('BOT Chain RPC returned '+r.status+'.');return r.json()}
 async function rpc(method,params=[]){let j;try{j=await rpcPost({jsonrpc:'2.0',id:rpcId++,method,params})}catch{if(window.ethereum)return request(method,params);throw Error('Could not reach BOT Chain. Check your connection.')}if(j.error)throw Error(j.error.message||'BOT Chain RPC error.');return j.result}
 async function rpcBatch(calls){const payload=calls.map(([method,params],i)=>({jsonrpc:'2.0',id:i+1,method,params}));try{const r=await rpcPost(payload);if(Array.isArray(r)){const by=new Map(r.map(x=>[x.id,x]));return payload.map(p=>by.get(p.id)||{})}}catch{}return Promise.all(calls.map(([m,p])=>rpc(m,p).then(result=>({result}),error=>({error}))))}
-const ethCall=(sig,args)=>['eth_call',[{to:contractAddress,data:encodeCall(sig,args)},'latest']];
+const ethCall=(sig,args)=>['eth_call',[{to:contractAddress,data:data(sig,args)},'latest']];
 const wordAt=(hex,i)=>BigInt('0x'+hex.slice(2).slice(i*64,i*64+64));
+const seatLabel=n=>'ABCDEF'[Math.floor((n-1)/10)]+((n-1)%10+1);
 const TICKET_ISSUED='0x85ac3e2a3d912eb02b05eed3314cf5d36994d8c7ea35900c0b9046971aab3514';
 export async function restore(){if(!window.ethereum)return'';try{const [a,c]=await Promise.all([request('eth_accounts'),request('eth_chainId')]);if(addressOK(a[0])&&c.toLowerCase()===chainConfig.chainId){account=a[0];return account}}catch{}return''}
-
-// ---- Zones/tiers: price + remaining per option, no individual seats. ----
-export async function chainAvailability(e){configured();const ev=await call('events(uint256)',[e.id]);if(wordAt('0x'+ev[0],0)!==1n)return{live:false};const n=Number(wordAt('0x'+ev[3],0)),res=await rpcBatch(Array.from({length:n},(_,i)=>ethCall('getOption(uint256,uint256)',[e.id,i])));return{live:true,options:res.map(r=>r.result?{price:wordAt(r.result,0),remaining:wordAt(r.result,1)}:null)}}
-export async function stockOf(e){const av=await chainAvailability(e);if(!av.live)return{live:false};let cap=0n,left=0n;av.options.forEach((o,i)=>{if(o){left+=o.remaining}});return{live:true,left:Number(left)}}
-export async function walletCountFor(eventId,owner){configured();const r=await call('ticketCountOf(uint256,address)',[eventId,owner]);return Number(wordAt('0x'+r[0],0))}
-
-// ---- Buying: a cart is [{tier, qty}, ...] for one concert, in one transaction. ----
-async function contractExists(){const code=await request('eth_getCode',[contractAddress,'latest']);if(code==='0x')throw Error('No contract exists at the configured address.')}
-export async function quoteCart(eventId,items){configured();const res=await Promise.all(items.map(it=>call('getOption(uint256,uint256)',[eventId,it.tier])));return items.map((it,i)=>({...it,price:wordAt('0x'+res[i][0],0),remaining:wordAt('0x'+res[i][1],0)}))}
-export async function issueCart(eventId,items,{fiatDemo=false,status=()=>{}}={}){
-  configured();const owner=await connectWallet();status('Checking ticket inventory…');await contractExists();
-  const quoted=await quoteCart(eventId,items);
-  for(const it of quoted){if(it.remaining<BigInt(it.qty))throw Error('One of the zones sold out while you were choosing. Refresh and try again.')}
-  const have=await walletCountFor(eventId,owner),want=items.reduce((s,it)=>s+it.qty,0);
-  if(have+want>4)throw Error(`This wallet already holds ${have} ticket${have===1?'':'s'} for this concert. Up to 4 per wallet, so it can take at most ${4-have} more.`);
-  const total=quoted.reduce((s,it)=>s+it.price*BigInt(it.qty),0n),value=fiatDemo?0n:total;
-  const tiers=items.map(it=>it.tier),qtys=items.map(it=>it.qty);
-  const lines=quoted.map(it=>`${it.qty} × ${bot(it.price)}`).join(', ');
-  if(!window.confirm(fiatDemo?`Claim ${want} free demo ticket${want===1?'':'s'} on BOT Chain? MetaMask will show network fees.`:`${lines} = ${bot(total)} plus network fees. Continue to MetaMask?`))throw Error('Transaction cancelled. Your selection is saved.');
-  await ensureAccount(owner);status('Confirm the transaction in MetaMask.');
-  const data=encodeCall(fiatDemo?'claimDemoTicket(uint256,uint256[],uint256[])':'buyTicket(uint256,uint256[],uint256[])',[eventId,tiers,qtys]);
-  const tx=await request('eth_sendTransaction',[{from:owner,to:contractAddress,value:'0x'+value.toString(16),data}]);
-  sessionStorage.setItem('tr2:pending',JSON.stringify({tx,owner,eventId,items}));
-  status('Transaction submitted. Waiting for BOT Chain confirmation…');
-  let receipt;for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,2000));await ensureAccount(owner);receipt=await request('eth_getTransactionReceipt',[tx]);if(receipt)break}
-  if(!receipt)throw Error('Confirmation is taking longer than expected. Transaction '+tx+' remains pending. Refresh on-chain tickets later; do not submit again yet.');
-  if(BigInt(receipt.status)!==1n)throw Error('The transaction failed on-chain. No ticket was issued.');
-  const ids=(receipt.logs||[]).filter(l=>l.address?.toLowerCase()===contractAddress.toLowerCase()&&l.topics[0]===TICKET_ISSUED).map(l=>BigInt(l.topics[1]).toString());
-  if(!ids.length)throw Error('Transaction confirmed, but no ticket could be found. Check the explorer.');
-  sessionStorage.removeItem('tr2:pending');status(`${ids.length} ticket${ids.length===1?'':'s'} confirmed on BOT Chain.`);
-  return{ids,tx};
-}
-export async function verifyTicket(t){configured();const result=await call('verifyTicket(uint256,address)',[t.id,t.owner]);return BigInt('0x'+result[0])===1n}
-export async function getWalletTickets(){configured();const owner=await connectWallet(),r=await call('getWalletTickets(address)',[owner]);const n=Number(BigInt('0x'+r[1])),ids=r.slice(2,2+n).map(x=>BigInt('0x'+x).toString());return await Promise.all(ids.map(ticketInfo))}
+export async function quote(o){configured();const [price,remaining,taken]=await call('getOption(uint256,uint256,uint256)',parts(o));return{price:BigInt('0x'+price),remaining:BigInt('0x'+remaining),taken:BigInt('0x'+taken)===1n}}
+export async function chainAvailability(e){configured();const ev=await call('events(uint256)',[e.id]);if(BigInt('0x'+ev[0])!==1n)return{live:false};if(e.mode==='seat'){const [res,zones]=await Promise.all([rpcBatch(Array.from({length:60},(_,i)=>ethCall('seatTaken(uint256,uint256)',[e.id,i+1]))),rpcBatch([0,1,2].map(z=>ethCall('options(uint256,uint256)',[e.id,z])))]);const taken=new Set();res.forEach((r,i)=>{if(r.result&&wordAt(r.result,0)===1n)taken.add(seatLabel(i+1))});zones.forEach((z,zi)=>{if(z.result&&wordAt(z.result,1)-wordAt(z.result,2)<=0n)for(let s=zi*20+1;s<=zi*20+20;s++)taken.add(seatLabel(s))});return{live:true,taken}}const res=await rpcBatch(e.tiers.map((_,i)=>ethCall('getOption(uint256,uint256,uint256)',[e.id,i,0])));return{live:true,tiers:res.map(r=>r.result?{price:wordAt(r.result,0),remaining:wordAt(r.result,1)}:null)}}
 export async function activity(limit=5){configured();const [next,head]=await Promise.all([call('nextTicketId()',[]),rpc('eth_blockNumber',[])]);const issued=Number(BigInt('0x'+next[0]))-1;if(issued<1)return{issued:0,items:[]};const tip=parseInt(head,16);let logs;for(const from of [deployBlock,Math.max(0,tip-5000)]){try{logs=await rpc('eth_getLogs',[{address:contractAddress,topics:[TICKET_ISSUED],fromBlock:'0x'+from.toString(16),toBlock:'latest'}]);break}catch{}}if(!logs)return{issued,items:[]};const last=logs.slice(-limit).reverse(),blocks=[...new Set(last.map(l=>l.blockNumber))],got=await rpcBatch(blocks.map(b=>['eth_getBlockByNumber',[b,false]])),ts=new Map(blocks.map((b,i)=>[b,got[i]?.result?Number(BigInt(got[i].result.timestamp))*1000:0]));return{issued,items:last.map(l=>({ticketId:BigInt(l.topics[1]).toString(),eventId:Number(BigInt(l.topics[2])),owner:'0x'+l.topics[3].slice(26),tx:l.transactionHash,at:ts.get(l.blockNumber)}))}}
 
 // ---- Resale and gate check-in ----
 const TICKET_LISTED='0x7fcebcf72427ecf9710bb03f1e03a6eb59b7eef703a03dd385ba24259a76550e';
-async function transact(sig,args,{value=0n,status=()=>{}}={}){configured();const owner=await connectWallet();await ensureAccount(owner);status('Confirm the transaction in MetaMask.');const tx=await request('eth_sendTransaction',[{from:owner,to:contractAddress,value:'0x'+value.toString(16),data:encodeCall(sig,args)}]);status('Transaction submitted. Waiting for BOT Chain confirmation…');let receipt;for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,2000));receipt=await request('eth_getTransactionReceipt',[tx]);if(receipt)break}if(!receipt)throw Error('Confirmation is taking longer than expected. Transaction '+tx+' remains pending.');if(BigInt(receipt.status)!==1n)throw Error('The transaction failed on-chain.');return{tx,owner}}
+async function transact(sig,args,{value=0n,status=()=>{},tail=[]}={}){configured();const owner=await connectWallet();await ensureAccount(owner);status('Confirm the transaction in MetaMask.');const tx=await request('eth_sendTransaction',[{from:owner,to:contractAddress,value:'0x'+value.toString(16),data:data(sig,args)+tail.map(x=>BigInt(x).toString(16).padStart(64,'0')).join('')}]);status('Transaction submitted. Waiting for BOT Chain confirmation…');let receipt;for(let i=0;i<90;i++){await new Promise(r=>setTimeout(r,2000));receipt=await request('eth_getTransactionReceipt',[tx]);if(receipt)break}if(!receipt)throw Error('Confirmation is taking longer than expected. Transaction '+tx+' remains pending.');if(BigInt(receipt.status)!==1n)throw Error('The transaction failed on-chain.');return{tx,owner}}
 export const listForResale=(id,price,status)=>transact('listForResale(uint256,uint256)',[id,price],{status});
 export const cancelResale=(id,status)=>transact('cancelResale(uint256)',[id],{status});
 export const buyResale=(id,price,status)=>transact('buyResale(uint256)',[id],{value:price,status});
 export const checkIn=(id,status)=>transact('checkIn(uint256)',[id],{status});
-export async function ticketInfo(id){configured();const [t,rp]=await Promise.all([call('tickets(uint256)',[id]),call('resalePrice(uint256)',[id])]);return{id:String(id),exists:wordAt('0x'+t[4],0)===1n,eventId:Number(wordAt('0x'+t[1],0)),owner:'0x'+t[2].slice(24),issuedAt:new Date(Number(wordAt('0x'+t[3],0))*1000).toISOString(),tierIndex:Number(wordAt('0x'+t[5],0)),used:wordAt('0x'+t[6],0)===1n,paid:wordAt('0x'+t[7],0),listed:wordAt('0x'+rp[0],0)}}
+export async function ticketInfo(id){configured();const [t,rp]=await Promise.all([call('tickets(uint256)',[id]),call('resalePrice(uint256)',[id])]),seatN=Number(wordAt('0x'+t[6],0));return{id:String(id),exists:wordAt('0x'+t[4],0)===1n,eventId:Number(wordAt('0x'+t[1],0)),owner:'0x'+t[2].slice(24),tierIndex:Number(wordAt('0x'+t[5],0)),seat:seatN?seatLabel(seatN):undefined,used:wordAt('0x'+t[7],0)===1n,paid:wordAt('0x'+t[8],0),listed:wordAt('0x'+rp[0],0)}}
 export async function isGate(who){configured();const [org,st]=await Promise.all([call('organizer()',[]),call('staff(address)',[who])]);return '0x'+org[0].slice(24)===who.toLowerCase()||wordAt('0x'+st[0],0)===1n}
 export async function listings(eventId){configured();const tip=parseInt(await rpc('eth_blockNumber',[]),16);let logs;for(const from of [deployBlock,Math.max(0,tip-5000)]){try{logs=await rpc('eth_getLogs',[{address:contractAddress,topics:eventId==null?[TICKET_LISTED]:[TICKET_LISTED,null,'0x'+BigInt(eventId).toString(16).padStart(64,'0')],fromBlock:'0x'+from.toString(16),toBlock:'latest'}]);break}catch{}}if(!logs)return[];const ids=[...new Set(logs.map(l=>BigInt(l.topics[1]).toString()))],infos=await Promise.all(ids.map(ticketInfo));return infos.filter(t=>t.exists&&!t.used&&t.listed>0n)}
 
@@ -98,6 +60,9 @@ export async function dashboard(events){configured();
   const [resold,checkins,staffLogs]=await Promise.all([logsOf(T_RESOLD),logsOf(T_CHECKIN),logsOf(T_STAFF)]);
   const staff=new Map();staffLogs.forEach(l=>staff.set('0x'+l.topics[1].slice(26),BigInt(l.data)===1n));
   return{organizer:'0x'+org[0].slice(24),issued:Number(BigInt('0x'+next[0]))-1,balance:BigInt(bal),perEvent,resales:{count:resold.length,volume:resold.reduce((s,l)=>s+BigInt(l.data),0n)},checkins:checkins.length,staff:[...staff].filter(([,on])=>on).map(([a])=>a)}}
-export const createEventTx=(id,{seated,demo,startsAt,prices,caps},status)=>transact('createEvent(uint256,bool,bool,uint256,uint256[],uint256[])',[id,seated,demo,startsAt,prices,caps],{status});
+export const createEventTx=(id,{seated,demo,startsAt,prices,caps},status)=>transact('createEvent(uint256,bool,bool,uint256,uint256[],uint256[])',[id,seated?1:0,demo?1:0,startsAt],{status,tail:[192+0,192+32+32*prices.length,prices.length,...prices,caps.length,...caps]});
 export const withdrawTx=(to,status)=>transact('withdraw(address)',[to],{status});
-export const setStaffTx=(who,allowed,status)=>transact('setStaff(address,bool)',[who,allowed],{status});
+export const setStaffTx=(who,allowed,status)=>transact('setStaff(address,bool)',[who,allowed?1:0],{status});
+
+// ---- Stock per concert (all tiers added up), for sold-out / low-stock / not-yet-on-sale badges ----
+export async function stockOf(e){configured();const ev=await call('events(uint256)',[e.id]);if(wordAt('0x'+ev[0],0)!==1n)return{live:false};const n=Number(wordAt('0x'+ev[3],0)),res=await rpcBatch(Array.from({length:n},(_,i)=>ethCall('options(uint256,uint256)',[e.id,i])));let cap=0n,issued=0n;res.forEach(r=>{if(r.result){cap+=wordAt(r.result,1);issued+=wordAt(r.result,2)}});return{live:true,cap:Number(cap),left:Number(cap-issued)}}

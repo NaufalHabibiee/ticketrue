@@ -2,7 +2,7 @@
 // Leave contractAddress empty to keep the site in demo mode.
 export const activeNetwork='testnet'; // 'testnet' | 'mainnet'
 export const networks={
-  testnet:{chainId:'0x3c8',chainName:'BOT Chain Testnet',nativeCurrency:{name:'BOT',symbol:'BOT',decimals:18},rpcUrls:['https://rpc.bohr.life'],blockExplorerUrls:['https://scan.bohr.life'],contractAddress:'0x85164A4B377b26161365cfA371Fa0FE7D3b78b8a',deployBlock:24295412},
+  testnet:{chainId:'0x3c8',chainName:'BOT Chain Testnet',nativeCurrency:{name:'BOT',symbol:'BOT',decimals:18},rpcUrls:['https://rpc.bohr.life'],blockExplorerUrls:['https://scan.bohr.life'],contractAddress:'',deployBlock:0},
   mainnet:{chainId:'0x2a5',chainName:'BOT Chain Mainnet',nativeCurrency:{name:'BOT',symbol:'BOT',decimals:18},rpcUrls:['https://rpc.botchain.ai'],blockExplorerUrls:['https://scan.botchain.ai'],contractAddress:'',deployBlock:0}
 };
 const net=networks[activeNetwork];
