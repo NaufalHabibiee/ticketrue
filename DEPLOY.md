@@ -37,7 +37,7 @@ Commit and push. The GitHub Actions workflow redeploys the site in about two min
 ## 4. Publish the concerts on-chain
 1. Open the live site, press **Connect wallet**, and select the **organizer wallet**.
 2. Open **Dashboard** (footer). You will see one form per concert that is not on-chain yet.
-3. Seated concerts have **three zone prices** (back, sides, front/VIP, up to 20 seats each). Tier concerts have one price per tier. Prices are in BOT; the defaults keep the same proportions as the Rp prices.
+3. Seated concerts have **three zone prices** (back, sides, front/VIP, up to 20 seats each). Tier concerts have one price per tier. Prices are in BOT; the defaults use Ticketrue's fixed USD-to-BOT project scale; edit them before mainnet deployment.
 4. On **testnet** you can leave *Allow free demo claims* ticked so judges without BOT can try a free claim. On **mainnet** the option is hidden and the contract refuses it.
 5. Press **Create on-chain** for each concert and confirm in MetaMask.
 
