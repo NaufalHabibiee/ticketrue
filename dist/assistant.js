@@ -108,7 +108,7 @@ export function mountAssistant(getCtx){
   const log=panel.querySelector('.as-log'),chips=panel.querySelector('.as-chips'),form=panel.querySelector('.as-form'),input=panel.querySelector('#as-input');
   let lang=/^id/i.test(navigator.language||'')?'id':'en',started=false,busy=false;
 
-  const fmt=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\[([^\]]+)\]\((#\/[^)\s]*|https:\/\/[^)\s]*)\)/g,(m,t,u)=>u.startsWith('#')?`<a href="${u}" data-as-nav>${t}</a>`:`<a href="${u}" target="_blank" rel="noreferrer">${t} ↗</a>`).replace(/\n/g,'<br>');
+  const fmt=s=>esc(s).replace(/`([^`]+)`/g,'<code>$1</code>').replace(/\*\*([^*]+)\*\*/g,'<b>$1</b>').replace(/\[([^\]]+)\]\((#\/[^)\s]*|https:\/\/[^)\s]*)\)/g,(m,t,u)=>u.startsWith('#')?`<a href="${u}" data-as-nav>${t}</a>`:`<a href="${u}" target="_blank" rel="noreferrer">${t}</a>`).replace(/\n/g,'<br>');
   const add=(who,html)=>{const m=document.createElement('div');m.className='as-msg '+who;m.innerHTML=html;log.append(m);log.scrollTop=log.scrollHeight;return m};
   const setChips=()=>{chips.innerHTML=CHIPS[lang].map(c=>`<button type="button" class="as-chip">${esc(c)}</button>`).join('')};
 

@@ -47,7 +47,7 @@ export function mountHeroTicket(root){
       c.setAttribute('aria-hidden',String(d!==0));
       if(d!==0){const t=tiltOf(c);['--rx','--ry','--tx','--ty','--mx','--my'].forEach(k=>t?.style.removeProperty(k))}
     });
-    dots.forEach((b,i)=>{b.classList.toggle('on',i===index);b.setAttribute('aria-current',i===index?'true':'false')});
+    dots.forEach((b,i)=>{b.classList.toggle('on',i===index);b.setAttribute('aria-current',i===index?'true':'false')});{const c=root.querySelector('#tk-count');if(c)c.textContent=String(index+1).padStart(2,'0')}
     restartBar();
     if(live)live.textContent=`Concert ${index+1} of ${n}: ${cards[index].getAttribute('aria-label')}`;
     if(dir&&!reduced){const t=tiltOf(cards[index]);t.style.setProperty('--dir',dir);t.classList.remove('tk-enter');void t.offsetWidth;t.classList.add('tk-enter')}
