@@ -1,5 +1,5 @@
 import {events as seed,money,date,demoStock,countries,countryOf,tzOf,utcOf} from './data.js';
-import {chainConfig,contractAddress,socials,botLinks,isMainnet,networks} from './config.js';
+import {chainConfig,contractAddress,socials,botLinks,isMainnet,networks} from './config.js?v=20260924-mainnet-live';
 import * as web3 from './web3.js';
 import {mountCarousel} from './carousel.js';
 import {mountHeroTicket} from './hero3d.js';

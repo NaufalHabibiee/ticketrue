@@ -81,7 +81,7 @@ RPC: https://rpc.bohr.life
 
 | Contract | Address | Explorer |
 |---|---|---|
-| v2 `Ticketrue` | _TBD: pending mainnet BOT allocation_ | https://scan.botchain.ai |
+| v2 `Ticketrue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` (deploy block `24354955`) | https://scan.botchain.ai/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
 
 RPC: https://rpc.botchain.ai
 

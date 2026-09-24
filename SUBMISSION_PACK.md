@@ -14,8 +14,8 @@ Prepared for **Build Week Hackathon Vol.2**. Use this file to copy verified link
 | Testnet deployment | [`0x09fd283b1dbf9d4db6b6f5cf42315f2128d7cfc9b9bd50e043a2e83e3bfd57cc`](https://scan.bohr.life/tx/0x09fd283b1dbf9d4db6b6f5cf42315f2128d7cfc9b9bd50e043a2e83e3bfd57cc) · block `24509734` |
 | On-chain event publish | [`0xa8e1a47c627935743a7d16a286c91060597f08b6af43a820bc33a7752a85d07e`](https://scan.bohr.life/tx/0xa8e1a47c627935743a7d16a286c91060597f08b6af43a820bc33a7752a85d07e) |
 | On-chain ticket purchase | [`0x6a3ae3ae306d28227739ddaf7f9e7078195eab06d7bfe4b9de1783640a1b6650b`](https://scan.bohr.life/tx/0x6a3ae3ae306d28227739ddaf7f9e7078195eab06d7bfe4b9de1783640a1b6650b) · Ticket ID `1` |
-| Mainnet contract | `TBD — deploy after receiving mainnet BOT allocation` |
-| Mainnet launch announcement | `TBD — publish only after the mainnet deployment is confirmed` |
+| Mainnet contract | [`0x80CB3e83478fddC62617EfDe390FD73C927808B1`](https://scan.botchain.ai/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1) |
+| Mainnet launch announcement | https://ticketrue.web.id/#/launch |
 | Dedicated Ticketrue X account | `TBD` |
 | Main project X post tagging @BOTChain_ai | `TBD` |
 
@@ -29,8 +29,8 @@ Prepared for **Build Week Hackathon Vol.2**. Use this file to copy verified link
 - [x] Ticket purchase confirmed in MetaMask and recorded on-chain.
 - [x] Ticket ID `1` shows a QR pass, public verification link, and downloadable PDF.
 - [x] BOT Chain name and links are visible in the website footer.
-- [ ] Mainnet deployment, address, and explorer link.
-- [ ] Mainnet launch announcement.
+- [x] Mainnet deployment, address, and explorer link.
+- [x] Mainnet launch page published on the project website.
 - [ ] Dedicated X account, five valid posts, and one project post tagging `@BOTChain_ai`.
 
 ## Mainnet handoff
@@ -38,9 +38,9 @@ Prepared for **Build Week Hackathon Vol.2**. Use this file to copy verified link
 After the deployment, add the following values here and send them to the project maintainer:
 
 ```text
-Mainnet contract address: TBD
-Mainnet deployment block: TBD
-Mainnet deployment transaction: TBD
+Mainnet contract address: 0x80CB3e83478fddC62617EfDe390FD73C927808B1
+Mainnet deployment block: 24354955
+Mainnet deployment transaction: 0x122dcf1783425fb0dffd88d0dc70fdcbf4cf16417636b653fa3eb92c5206a043
 Mainnet event publish transaction: TBD
 Mainnet ticket purchase transaction: TBD
 ```

@@ -16,10 +16,10 @@ Fill these values immediately after MetaMask confirms the deployment:
 
 | Field | Value |
 | --- | --- |
-| Mainnet contract address | `TBD` |
-| Deployment transaction hash | `TBD` |
-| Deployment block number | `TBD` |
-| Explorer URL | `https://scan.botchain.ai/address/TBD` |
+| Mainnet contract address | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` |
+| Deployment transaction hash | `0x122dcf1783425fb0dffd88d0dc70fdcbf4cf16417636b653fa3eb92c5206a043` |
+| Deployment block number | `24354955` |
+| Explorer URL | https://scan.botchain.ai/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
 | Deployed by | `0xF0c7F07fF9b95ef974435B757b496146f7b10391` |
 
 ## Release sequence
