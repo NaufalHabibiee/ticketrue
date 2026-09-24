@@ -2939,3 +2939,11 @@ a.back{padding:6px 20px;justify-content:center}
 /* bigger, optically centred play icon */
 .about-play svg{width:30px;height:30px;margin-left:0;fill:currentColor;stroke:none}
 @media(max-width:700px){.about-play svg{width:26px;height:26px}}
+
+/* ---- Carousel artwork: keep the posters crisp and let their colour show through ---- */
+.hero-banner .banner-image{filter:brightness(.84) saturate(1.06) contrast(1.04);transform:scale(1.015)}
+.hero-banner.is-active .banner-image{transform:scale(1.045)}
+.hero-banner .banner-shade{background:linear-gradient(90deg,#081627 0%,#081627f0 29%,#081627d4 45%,#0816278a 63%,#08162724 84%,#08162700 100%),linear-gradient(0deg,#0817258c,transparent 43%)}
+/* Bring the Rhythm & Echo artwork further into the carousel frame. */
+.banner-stadium .banner-image{right:8%;object-position:center 34%}
+@media(max-width:900px){.hero-banner .banner-image{filter:brightness(.8) saturate(1.06) contrast(1.04);transform:none}.hero-banner.is-active .banner-image{transform:scale(1.025)}.hero-banner .banner-shade{background:linear-gradient(180deg,#081627b8 0%,#08162700 31%),linear-gradient(0deg,#081627ed 0%,#081627bd 39%,#08162742 73%,#08162710 100%)}.banner-stadium .banner-image{right:0;object-position:42% 26%}}
