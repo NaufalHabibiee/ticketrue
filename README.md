@@ -6,7 +6,7 @@ Built for **Build Week Hackathon Vol.2** (Girl Meets Tech x BOT Chain), **RWA tr
 
 > All concerts, artists and venues in this project are **fictional**. Demo payments (QRIS, bank, e-wallet) are simulations and move no real money.
 
-- **Live website:** https://ticketrue.web.id
+- **Live website:** _TBD: add the custom domain URL here_
 - **Repository:** https://github.com/NaufalHabibiee/ticketrue
 
 ## What it does, in plain English
@@ -71,9 +71,7 @@ Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been au
 | Contract | Address | Explorer |
 |---|---|---|
 | v1 `TicketRue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
-| v2 `Ticketrue` | _TBD_ | _TBD_ |
-
-> Note: an earlier cart-based revision of `Ticketrue` was deployed to testnet at `0x85164A4B377b26161365cfA371Fa0FE7D3b78b8a` (block 24295412). That interface does not match the contract currently in this repo, so the site runs in demo mode until this version is (re)deployed.
+| v2 `Ticketrue` | `0x324348D3f63850e77672da7e0E4A9806336eA210` | https://scan.bohr.life/address/0x324348D3f63850e77672da7e0E4A9806336eA210 |
 
 RPC: https://rpc.bohr.life
 
@@ -124,9 +122,7 @@ scripts/        Build helpers (asset copy, contract compile)
 
 ## Team
 
-1. Muhamad Agung Naufal Habibie
-2. Raihan Ade Sulaiman
-3. Muhammad Faris
+_TBD: add team members (up to 3)._
 
 ## License
 
