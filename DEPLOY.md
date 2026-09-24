@@ -24,10 +24,11 @@ This is the step-by-step for putting `contracts/Ticketrue.sol` on BOT Chain and 
 6. Open the deploy transaction on the explorer (https://scan.bohr.life for testnet, https://scan.botchain.ai for mainnet) and note its **block number**.
 
 ## 3. Point the website at the contract
-Edit [`dist/config.js`](./dist/config.js) and fill in the network you deployed to:
+Edit [`dist/config.js`](./dist/config.js) and fill in the network you deployed to. The live domain defaults to Testnet; after both addresses are configured, append `?network=mainnet` to the site URL to use Mainnet without maintaining a second website:
 
 ```js
-export const activeNetwork='testnet'; // or 'mainnet'
+// Default is testnet; use https://ticketrue.web.id/?network=mainnet for mainnet.
+export const activeNetwork=requestedNetwork==='mainnet'?'mainnet':'testnet';
 // ...
 testnet:{ ..., contractAddress:'0xYOUR_ADDRESS', deployBlock: 1234567 },
 ```
