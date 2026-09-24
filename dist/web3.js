@@ -1,4 +1,4 @@
-import {chainConfig,contractAddress,deployBlock} from './config.js?v=20260924-network-switch';
+import {chainConfig,contractAddress,deployBlock} from './config.js?v=20260924-network-menu';
 import {selectors} from './abi.js';
 import {keccak256,utf8,hexToBytes,bytesToHex} from './keccak.js';
 let account='',provider;
