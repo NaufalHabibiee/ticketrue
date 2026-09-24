@@ -6,7 +6,7 @@ Built for **Build Week Hackathon Vol.2** (Girl Meets Tech x BOT Chain), **RWA tr
 
 > All concerts, artists and venues in this project are **fictional**. Demo payments (QRIS, bank, e-wallet) are simulations and move no real money.
 
-- **Live website:** _TBD: add the custom domain URL here_
+- **Live website:** https://ticketrue.web.id
 - **Repository:** https://github.com/NaufalHabibiee/ticketrue
 
 ## What it does, in plain English
@@ -43,7 +43,7 @@ Buying a concert ticket online has three familiar problems: fake or duplicated t
 
 | Version | File | Status |
 |---|---|---|
-| **v2** (used by the website) | [`contracts/Ticketrue.sol`](./contracts/Ticketrue.sol) | Compiled and tested locally. Deployment pending, see below. |
+| **v2** (used by the website) | [`contracts/Ticketrue.sol`](./contracts/Ticketrue.sol) | Deployed and tested end-to-end on BOT Chain Testnet. |
 | **v1** (first prototype) | [`contracts/v1/TicketRue.sol`](./contracts/v1/TicketRue.sol) | Deployed and tested on BOT Chain Testnet. |
 
 Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been audited.
@@ -72,6 +72,8 @@ Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been au
 |---|---|---|
 | v1 `TicketRue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
 | v2 `Ticketrue` | `0x324348D3f63850e77672da7e0E4A9806336eA210` (deploy block `24509734`) | https://scan.bohr.life/address/0x324348D3f63850e77672da7e0E4A9806336eA210 |
+
+Testnet proof: an event has been published and Ticket ID `1` was bought through MetaMask and recorded by the v2 contract.
 
 RPC: https://rpc.bohr.life
 
