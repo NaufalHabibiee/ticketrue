@@ -71,7 +71,7 @@ Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been au
 | Contract | Address | Explorer |
 |---|---|---|
 | v1 `TicketRue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
-| v2 `Ticketrue` | `0x324348D3f63850e77672da7e0E4A9806336eA210` | https://scan.bohr.life/address/0x324348D3f63850e77672da7e0E4A9806336eA210 |
+| v2 `Ticketrue` | `0x324348D3f63850e77672da7e0E4A9806336eA210` (deploy block `24509734`) | https://scan.bohr.life/address/0x324348D3f63850e77672da7e0E4A9806336eA210 |
 
 RPC: https://rpc.bohr.life
 
