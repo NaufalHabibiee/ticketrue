@@ -13,7 +13,7 @@ Prepared for **Build Week Hackathon Vol.2**. Use this file to copy verified link
 | Testnet contract | [`0x324348D3f63850e77672da7e0E4A9806336eA210`](https://scan.bohr.life/address/0x324348D3f63850e77672da7e0E4A9806336eA210) |
 | Testnet deployment | [`0x09fd283b1dbf9d4db6b6f5cf42315f2128d7cfc9b9bd50e043a2e83e3bfd57cc`](https://scan.bohr.life/tx/0x09fd283b1dbf9d4db6b6f5cf42315f2128d7cfc9b9bd50e043a2e83e3bfd57cc) · block `24509734` |
 | On-chain event publish | [`0xa8e1a47c627935743a7d16a286c91060597f08b6af43a820bc33a7752a85d07e`](https://scan.bohr.life/tx/0xa8e1a47c627935743a7d16a286c91060597f08b6af43a820bc33a7752a85d07e) |
-| On-chain ticket purchase | [`0x6a3ae3ae306d28227739ddaf7f9e7078195eab06d7bfe4b9de1783640a1b6650b`](https://scan.bohr.life/tx/0x6a3ae3ae306d28227739ddaf7f9e7078195eab06d7bfe4b9de1783640a1b6650b) · Ticket ID `1` |
+| On-chain ticket purchase | [`0x6a3ae3ae306d28227739dda7f9e7078195eab06d7bfe4b9de1783640a1b6650b`](https://scan.bohr.life/tx/0x6a3ae3ae306d28227739dda7f9e7078195eab06d7bfe4b9de1783640a1b6650b) · Ticket ID `1` |
 | Mainnet contract | [`0x80CB3e83478fddC62617EfDe390FD73C927808B1`](https://scan.botchain.ai/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1) |
 | Mainnet launch announcement | https://ticketrue.web.id/#/launch |
 | Dedicated Ticketrue X account | `TBD` |
