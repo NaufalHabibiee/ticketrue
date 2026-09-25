@@ -124,7 +124,9 @@ scripts/        Build helpers (asset copy, contract compile)
 
 ## Team
 
-_TBD: add team members (up to 3)._
+1. Muhamad Agung Naufal Habibie
+2. Raihan Ade Sulaiman
+3. Muhammad Faris
 
 ## License
 
