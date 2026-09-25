@@ -1,4 +1,4 @@
-import {chainConfig,contractAddress,deployBlock} from './config.js?v=20260925-network-isolation';
+import {chainConfig,contractAddress,deployBlock} from './config.js?v=20260925-dashboard-network-status';
 import {selectors} from './abi.js';
 import {keccak256,utf8,hexToBytes,bytesToHex} from './keccak.js';
 let account='',provider;
