@@ -15,6 +15,8 @@ Prepared for **Build Week Hackathon Vol.2**. Use this file to copy verified link
 | On-chain event publish | [`0xa8e1a47c627935743a7d16a286c91060597f08b6af43a820bc33a7752a85d07e`](https://scan.bohr.life/tx/0xa8e1a47c627935743a7d16a286c91060597f08b6af43a820bc33a7752a85d07e) |
 | On-chain ticket purchase | [`0x6a3ae3ae306d28227739dda7f9e7078195eab06d7bfe4b9de1783640a1b6650b`](https://scan.bohr.life/tx/0x6a3ae3ae306d28227739dda7f9e7078195eab06d7bfe4b9de1783640a1b6650b) · Ticket ID `1` |
 | Mainnet contract | [`0x80CB3e83478fddC62617EfDe390FD73C927808B1`](https://scan.botchain.ai/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1) |
+| Mainnet event publish | [`0x48e4091042e1d07997181cc017aa3a1372c04aded5c73aa963e519edf698ea82`](https://scan.botchain.ai/tx/0x48e4091042e1d07997181cc017aa3a1372c04aded5c73aa963e519edf698ea82) |
+| Mainnet ticket purchase | [`0x21005fa76b1a24eb1e07fd28465d5d205c296b7538125543b4edd7fedcbc1087`](https://scan.botchain.ai/tx/0x21005fa76b1a24eb1e07fd28465d5d205c296b7538125543b4edd7fedcbc1087) · Ticket ID `1` |
 | Mainnet launch announcement | https://ticketrue.web.id/#/launch |
 | Dedicated Ticketrue X account | `TBD` |
 | Main project X post tagging @BOTChain_ai | `TBD` |
@@ -31,6 +33,8 @@ Prepared for **Build Week Hackathon Vol.2**. Use this file to copy verified link
 - [x] BOT Chain name and links are visible in the website footer.
 - [x] Mainnet deployment, address, and explorer link.
 - [x] Mainnet launch page published on the project website.
+- [x] Concert published on-chain on Mainnet (event ID 1).
+- [x] Ticket purchase confirmed on Mainnet (Ticket ID 1).
 - [ ] Dedicated X account, five valid posts, and one project post tagging `@BOTChain_ai`.
 
 ## Mainnet handoff
@@ -41,8 +45,8 @@ After the deployment, add the following values here and send them to the project
 Mainnet contract address: 0x80CB3e83478fddC62617EfDe390FD73C927808B1
 Mainnet deployment block: 24354955
 Mainnet deployment transaction: 0x122dcf1783425fb0dffd88d0dc70fdcbf4cf16417636b653fa3eb92c5206a043
-Mainnet event publish transaction: TBD
-Mainnet ticket purchase transaction: TBD
+Mainnet event publish transaction: 0x48e4091042e1d07997181cc017aa3a1372c04aded5c73aa963e519edf698ea82 · block 24447589
+Mainnet ticket purchase transaction: 0x21005fa76b1a24eb1e07fd28465d5d205c296b7538125543b4edd7fedcbc1087 · block 24447648 · Ticket ID 1
 ```
 
 The mainnet release checklist is in [MAINNET_RELEASE.md](./MAINNET_RELEASE.md).
