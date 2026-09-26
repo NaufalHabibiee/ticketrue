@@ -291,6 +291,14 @@ html:has(body.auth-page),body.auth-page{height:100%;overflow:hidden}.auth-page .
 .bot-badge b{color:#F9A12B}
 .bot-badge i{font-style:normal;color:#F9A12B}
 .stub-meta a.bot-badge:hover{background:#F9A12B22;text-decoration:none;color:#fff}
+.offline-page{min-height:56vh;display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:80px 24px;background:#0c2d50;color:#e8f2ff;border-radius:18px;margin:20px auto;max-width:640px}
+.offline-mark{width:64px;height:64px;border-radius:50%;background:#ffffff14;display:grid;place-items:center;margin-bottom:22px}
+.offline-mark svg{width:30px;height:30px;fill:none;stroke:#F9A12B;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.offline-page h1{font-size:26px;font-weight:800;margin-bottom:10px;color:#fff}
+.offline-page p{color:#b9d0ea;max-width:380px;font-size:14.5px;line-height:1.55}
+.offline-status{margin-top:22px;font:600 11px/1 var(--mono);letter-spacing:.12em;text-transform:uppercase;color:#F9A12B;display:inline-flex;align-items:center;gap:8px}
+.offline-status::before{content:'';width:7px;height:7px;border-radius:50%;background:#F9A12B;animation:offline-pulse 1.4s ease-in-out infinite}
+@keyframes offline-pulse{0%,100%{opacity:.35}50%{opacity:1}}
 .stub-meta a:hover{color:#F9A12B;text-decoration:underline;text-underline-offset:5px}
 .stub-copy{flex-basis:100%;font-size:12px;color:#7f9fc4}
 @media(max-width:1000px){.stub-top{grid-template-columns:1fr;gap:34px}.stub-side{flex-basis:calc(180px + var(--edge))}}
