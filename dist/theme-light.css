@@ -783,10 +783,9 @@ label .csel{margin-top:8px}
 /* 2. choose a seat */
 .hv-seat{display:flex;flex-direction:column;align-items:center;justify-content:center;gap:12px}
 .hv-stage{width:66%;padding:5px 0;border-radius:0 0 30px 30px;background:#ffffff1f;font:700 9px/1 var(--mono);letter-spacing:.3em;text-align:center;color:#9dbbdc}
-.hv-seats{display:grid;grid-template-columns:repeat(8,20px);gap:6px}
-.hv-seats span{width:20px;height:20px;border-radius:5px 5px 3px 3px;background:#3a5f8c}
-.hv-seats span.taken{background:#1c3a5f}
-.hv-seats span.pick{background:#F9A12B}
+.hv-zones{display:grid;grid-template-columns:repeat(3,46px);gap:7px}
+.hv-zones span{height:28px;border-radius:7px;opacity:.9;transition:transform .2s}
+.hv-zones span.pick{opacity:1;box-shadow:0 0 0 2px #0c2d50,0 0 0 4px #F9A12B}
 .hv-chip{display:flex;align-items:baseline;gap:10px;padding:7px 12px;border-radius:999px;background:#fff;color:#0c2d50}
 .hv-chip b{font-size:12px}
 .hv-chip small{font:700 12px/1 var(--mono);color:#b06a05}
