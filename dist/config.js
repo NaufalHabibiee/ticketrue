@@ -5,7 +5,7 @@
 const requestedNetwork=new URLSearchParams(window.location.search).get('network');
 export const activeNetwork=requestedNetwork==='mainnet'?'mainnet':'testnet';
 export const networks={
-  testnet:{chainId:'0x3c8',chainName:'BOT Chain Testnet',nativeCurrency:{name:'BOT',symbol:'BOT',decimals:18},rpcUrls:['https://rpc.bohr.life'],blockExplorerUrls:['https://scan.bohr.life'],contractAddress:'0x324348D3f63850e77672da7e0E4A9806336eA210',deployBlock:24509734},
+  testnet:{chainId:'0x3c8',chainName:'BOT Chain Testnet',nativeCurrency:{name:'BOT',symbol:'BOT',decimals:18},rpcUrls:['https://rpc.bohr.life'],blockExplorerUrls:['https://scan.bohr.life'],contractAddress:'0x1A8bD86B9b93c41e35Ba8BB4f857365022a6f3B0',deployBlock:24770400},
   mainnet:{chainId:'0x2a5',chainName:'BOT Chain Mainnet',nativeCurrency:{name:'BOT',symbol:'BOT',decimals:18},rpcUrls:['https://rpc.botchain.ai'],blockExplorerUrls:['https://scan.botchain.ai'],contractAddress:'0x80CB3e83478fddC62617EfDe390FD73C927808B1',deployBlock:24354955}
 };
 const net=networks[activeNetwork];

@@ -71,9 +71,9 @@ Solidity `0.8.20`, optimizer enabled with 200 runs. The contract has not been au
 | Contract | Address | Explorer |
 |---|---|---|
 | v1 `TicketRue` | `0x80CB3e83478fddC62617EfDe390FD73C927808B1` | https://scan.bohr.life/address/0x80CB3e83478fddC62617EfDe390FD73C927808B1 |
-| v2 `Ticketrue` | `0x324348D3f63850e77672da7e0E4A9806336eA210` (deploy block `24509734`) | https://scan.bohr.life/address/0x324348D3f63850e77672da7e0E4A9806336eA210 |
+| v2 `Ticketrue` | `0x1A8bD86B9b93c41e35Ba8BB4f857365022a6f3B0` (deploy block `24770400`) | https://scan.bohr.life/address/0x1A8bD86B9b93c41e35Ba8BB4f857365022a6f3B0 |
 
-Testnet proof: an event has been published and Ticket ID `1` was bought through MetaMask and recorded by the v2 contract.
+Redeployed 2026-09-26 under a new organizer wallet after losing access to the original testnet organizer key. The previous testnet contract (`0x324348D3f63850e77672da7e0E4A9806336eA210`) is abandoned; its events and the earlier "Ticket ID 1" proof no longer apply.
 
 RPC: https://rpc.bohr.life
 
